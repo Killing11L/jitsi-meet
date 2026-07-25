@@ -1,0 +1,11 @@
+{
+  "module": {
+    "name": "jitsi_meet",
+    "type": "har",
+    "deviceTypes": [
+      "default",
+      "tablet",
+      "2in1"
+    ]
+  }
+}

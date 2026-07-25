@@ -1,0 +1,3 @@
+# consumer-rules.txt
+# 依赖此 HAR 的工程可在此追加混淆保留规则。
+-keep

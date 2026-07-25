@@ -1,7 +1,8 @@
-import { GiphyContent, GiphyGridView, GiphyMediaType, GiphyRating } from '@giphy/react-native-sdk';
+// import { GiphyContent, GiphyGridView, GiphyMediaType, GiphyRating } from '@giphy/react-native-sdk';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import { View } from 'react-native';
 
 import { createGifSentEvent } from '../../../analytics/AnalyticsEvents';
 import { sendAnalytics } from '../../../analytics/functions';
@@ -13,6 +14,23 @@ import { formatGifUrlMessage, getGifRating, getGifUrl } from '../../functions.na
 
 import GifsMenuFooter from './GifsMenuFooter';
 import styles from './styles';
+
+// --- 空实现，替代 @giphy/react-native-sdk ---
+enum GiphyMediaType {
+    Gif = 'gif'
+}
+
+enum GiphyRating {
+    PG = 'pg'
+}
+
+const GiphyContent = {
+    trending: (_options: any) => ({}),
+    search: (_options: any) => ({})
+};
+
+const GiphyGridView = (_props: any) => null;
+// --- 空实现结束 ---
 
 const GifsMenu = () => {
     const [ searchQuery, setSearchQuery ] = useState('');

@@ -56,6 +56,15 @@
         "uuid": "0.0.0",
         "zxcvbn": "0.0.0"
     },
+    "bundleDependencies": [
+        "@react-navigation/bottom-tabs",
+        "@react-navigation/core",
+        "@react-navigation/elements",
+        "@react-navigation/material-top-tabs",
+        "@react-navigation/native",
+        "@react-navigation/routers",
+        "@react-navigation/stack"
+    ],
     "peerDependencies": {
         "@amplitude/analytics-react-native": "0.0.0",
         "@giphy/react-native-sdk": "0.0.0",

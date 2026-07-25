@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { GestureResponderEvent } from 'react-native';
+import { GestureResponderEvent, Platform } from 'react-native';
 import { MediaStream, RTCView } from 'react-native-webrtc';
 
 import Pressable from '../../../react/components/native/Pressable';
@@ -88,9 +88,37 @@ export default class Video extends Component<IProps> {
                 = zoomEnabled
                     ? 'contain'
                     : 'cover';
+
+            // HarmonyOS: only the conference LargeVideo (zOrder === 0) is marked as
+            // the Picture-in-Picture source. Filmstrip thumbnails use zOrder === 1.
+            // This makes the RTCView auto-register with the native PiPManager so the
+            // toolbar PiP button / hardware back / background-switch can shrink it.
+            const iosPIP
+                = Platform.OS === 'harmony' && this.props.zOrder === 0
+                    ? {
+                        enabled: true,
+                        startAutomatically: true,
+                        stopAutomatically: true,
+
+                        // HarmonyOS PiPTemplateType.VIDEO_MEETING (=2): this is a meeting
+                        // app. The shared webrtc module defaults to VIDEO_CALL; the
+                        // meeting type is chosen here by the consumer, not hardcoded there.
+                        templateType: 2,
+
+                        // HarmonyOS VideoMeetingControlGroup buttons on the PiP window.
+                        // 枚举值(须与 templateType=VIDEO_MEETING 匹配, 最多 3 个, 顺序即面板顺序):
+                        //   301 = HANG_UP_BUTTON, 304 = MICROPHONE_SWITCH, 302 = CAMERA_SWITCH
+                        // 控件按钮点击事件由 webrtc PiPManager 收集后,经 globalThis.rnohPiPBridge
+                        // 多订阅透传到 jitsi PictureInPictureModule,再由 pipControlMiddleware
+                        // 派发为 hangup/setAudioMuted/setVideoMuted。需 webrtc HAR 已修复
+                        // controlEventCallback 单槽抢占(改为多订阅)方才生效。
+                        controlGroups: [ 301, 304, 302 ]
+                    }
+                    : undefined;
             const rtcView
                 = (
                     <RTCView
+                        iosPIP = { iosPIP }
                         mirror = { this.props.mirror }
                         objectFit = { objectFit }
                         streamURL = { stream.toURL() }

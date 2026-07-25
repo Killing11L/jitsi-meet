@@ -646,7 +646,10 @@ function _pinParticipant({ getState }: IStore, next: Function, action: AnyAction
     let participantIdForEvent;
 
     if (local) {
-        participantIdForEvent = local;
+        // local 是布尔值(参与者是否为本地), 不能直接当作参与者 ID 传入埋点事件,
+        // 否则 createPinnedEvent 的 objectId 会变成 true, 触发 AnalyticsAdapter
+        // "Required field missing" 校验失败并丢弃事件。这里取本地参与者的真实 ID。
+        participantIdForEvent = participantById?.id ?? pinnedParticipant?.id;
     } else {
         participantIdForEvent
             = actionName === ACTION_PINNED ? id : pinnedParticipant?.id;
