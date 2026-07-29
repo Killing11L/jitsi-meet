@@ -24,13 +24,11 @@ import CalleeInfoContainer from '../../../invite/components/callee-info/CalleeIn
 import LargeVideo from '../../../large-video/components/LargeVideo.web';
 import LobbyScreen from '../../../lobby/components/web/LobbyScreen';
 import { getIsLobbyVisible } from '../../../lobby/functions';
-import SecondScreenPortals from '../../../multi-screen/components/SecondScreenPortals';
 import { getOverlayToRender } from '../../../overlay/functions.web';
 import ParticipantsPane from '../../../participants-pane/components/web/ParticipantsPane';
 import Prejoin from '../../../prejoin/components/web/Prejoin';
 import { isPrejoinPageVisible } from '../../../prejoin/functions.web';
 import ReactionAnimations from '../../../reactions/components/web/ReactionsAnimations';
-import { isTimeTimerExpiredUnacknowledged } from '../../../time-timer/functions';
 import { toggleToolboxVisible } from '../../../toolbox/actions.any';
 import { fullScreenChanged, showToolbox } from '../../../toolbox/actions.web';
 import JitsiPortal from '../../../toolbox/components/web/JitsiPortal';
@@ -120,11 +118,6 @@ interface IProps extends AbstractProps, WithTranslation {
      * be false.
      */
     _showVisitorsQueue: boolean;
-
-    /**
-     * Whether the meeting time-timer has reached / passed the scheduled end.
-     */
-    _timerExpired: boolean;
 
     dispatch: IStore['dispatch'];
 }
@@ -244,11 +237,8 @@ class Conference extends AbstractConference<IProps, any> {
             _showLobby,
             _showPrejoin,
             _showVisitorsQueue,
-            _timerExpired,
             t
         } = this.props;
-
-        const videospaceClassName = _timerExpired ? 'timer-expired' : undefined;
 
         if (_reducedUI) {
             return (
@@ -266,7 +256,6 @@ class Conference extends AbstractConference<IProps, any> {
                         <ConferenceInfo />
                         <Notice />
                         <div
-                            className = { videospaceClassName }
                             id = 'videospace'
                             onTouchStart = { this._onVideospaceTouchStart }>
                             <LargeVideo />
@@ -299,7 +288,6 @@ class Conference extends AbstractConference<IProps, any> {
                     { _showPrejoin || _showLobby || <ConferenceInfo /> }
                     <Notice />
                     <div
-                        className = { videospaceClassName }
                         id = 'videospace'
                         onTouchStart = { this._onVideospaceTouchStart }>
                         <LargeVideo />
@@ -312,7 +300,6 @@ class Conference extends AbstractConference<IProps, any> {
                         }
                     </div>
                     <AudioTracksContainer />
-                    <SecondScreenPortals />
                     { _showPrejoin || _showLobby || (
                         <>
                             <span
@@ -484,8 +471,7 @@ function _mapStateToProps(state: IReduxState) {
         _roomName: getConferenceNameForTitle(state),
         _showLobby: getIsLobbyVisible(state),
         _showPrejoin: isPrejoinPageVisible(state),
-        _showVisitorsQueue: showVisitorsQueue(state),
-        _timerExpired: isTimeTimerExpiredUnacknowledged(state)
+        _showVisitorsQueue: showVisitorsQueue(state)
     };
 }
 

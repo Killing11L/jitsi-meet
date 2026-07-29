@@ -1,4 +1,4 @@
-import { GiphySDK } from '@giphy/react-native-sdk';
+// import { GiphySDK } from '@giphy/react-native-sdk';
 
 import StateListenerRegistry from '../base/redux/StateListenerRegistry';
 
@@ -13,7 +13,7 @@ StateListenerRegistry.register(
         const state = store.getState();
 
         if (isGifEnabled(state)) {
-            GiphySDK.configure({ apiKey: state['features/base/config'].giphy?.sdkKey ?? '' });
+            // GiphySDK.configure({ apiKey: state['features/base/config'].giphy?.sdkKey ?? '' });
         }
     }, {
         deepEquals: true

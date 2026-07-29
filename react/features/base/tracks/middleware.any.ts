@@ -86,11 +86,15 @@ MiddlewareRegistry.register(store => next => action => {
             // implemented in react-native-webrtc for video which switches
             // between the cameras via a native WebRTC library implementation
             // without making any changes to the track.
+            const wasFront
+                = jitsiTrack.getCameraFacingMode() === CAMERA_FACING_MODE.USER;
+
             jitsiTrack._switchCamera();
 
-            // Don't mirror the video of the back/environment-facing camera.
-            const mirror
-                = jitsiTrack.getCameraFacingMode() === CAMERA_FACING_MODE.USER;
+            // Don't mirror the back/environment-facing camera. Capture facing
+            // mode before _switchCamera: on OHOS applyConstraints is async and
+            // getCameraFacingMode() read after switch may still be stale.
+            const mirror = !wasFront;
 
             store.dispatch({
                 type: TRACK_UPDATED,

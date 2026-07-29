@@ -3,7 +3,7 @@ import { NativeModules, Platform, StyleSheet, View } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 // @ts-ignore
-import { hideSplash } from 'react-native-splash-view';
+// import { hideSplash } from 'react-native-splash-view';
 
 import BottomSheetContainer from '../../base/dialog/components/native/BottomSheetContainer';
 import DialogContainer from '../../base/dialog/components/native/DialogContainer';
@@ -23,6 +23,7 @@ import { AbstractApp, IProps as AbstractAppProps } from './AbstractApp';
 import '../middlewares.native';
 import '../reducers.native';
 
+const hideSplash = () => {};
 
 declare let __DEV__: any;
 

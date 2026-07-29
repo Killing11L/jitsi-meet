@@ -1,4 +1,5 @@
 import { AnyAction } from 'redux';
+import { Platform } from 'react-native';
 
 import {
     createStartAudioOnlyEvent,
@@ -184,7 +185,15 @@ MiddlewareRegistry.register(store => next => action => {
 function _appStateChanged({ dispatch, getState }: IStore, next: Function, action: AnyAction) {
     if (navigator.product === 'ReactNative') {
         const { appState } = action;
-        const mute = appState !== 'active' && !isLocalVideoTrackDesktop(getState());
+
+        // HarmonyOS: 画中画(PiP)需要 LargeVideo 的 RTCView 在退后台时保持挂载,
+        // 否则 XComponent surface 会被销毁 → PiP 拿到失效的 XComponentController →
+        // swap 失败并触发 native v-frame-receiver 线程访问已回收 buffer 的崩溃。
+        // 退后台静音本地视频会导致 redux 重算 → RTCView 卸载, 故鸿蒙跳过后台静音。
+        // 参考 webrtc demo(RTCPIPViewExample): RTCView 从不卸载, PiP 正常。
+        const mute = appState !== 'active'
+            && !isLocalVideoTrackDesktop(getState())
+            && Platform.OS !== 'harmony';
 
         sendAnalytics(createTrackMutedEvent('video', 'background mode', mute));
 

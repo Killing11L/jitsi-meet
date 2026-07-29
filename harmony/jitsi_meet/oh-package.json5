@@ -1,0 +1,11 @@
+{
+  "name": "@react-native-ohos/jitsi-meet",
+  "version": "0.0.1",
+  "description": "HarmonyOS adaptation of jitsi-meet native SDK modules",
+  "main": "Index.ets",
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@rnoh/react-native-openharmony": "file:../../node_modules/@react-native-oh/react-native-harmony/react_native_openharmony.har"
+  }
+}

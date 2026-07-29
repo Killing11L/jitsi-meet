@@ -3,14 +3,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { IReduxState, IStore } from '../../../app/types';
-import TranslationLabel from '../../../audio-translation/components/web/TranslationLabel';
 import { JitsiRecordingConstants } from '../../../base/lib-jitsi-meet';
 import E2EELabel from '../../../e2ee/components/E2EELabel';
 import HighlightButton from '../../../recording/components/Recording/web/HighlightButton';
 import RecordingLabel from '../../../recording/components/web/RecordingLabel';
 import TranscribingLabel from '../../../recording/components/web/TranscribingLabel';
-import TimeTimerPill from '../../../time-timer/components/web/TimeTimerPill';
-import { isTimeTimerEnabled } from '../../../time-timer/functions';
 import { showToolbox } from '../../../toolbox/actions.web';
 import { isToolboxVisible } from '../../../toolbox/functions.web';
 import VideoQualityLabel from '../../../video-quality/components/VideoQualityLabel.web';
@@ -44,17 +41,6 @@ interface IProps {
     _reducedUI: boolean;
 
     /**
-     * Whether the time-timer is actually showing — i.e. enabled AND a timer
-     * is running for the current meeting. Only then does the unified
-     * {@code TimeTimerPill} replace the separate subject + conference-timer
-     * labels. It must NOT be gated on "enabled" alone: the feature is on by
-     * default but renders nothing until a duration is known, so gating on
-     * enabled would hide the subject + clock on every default deployment with
-     * nothing to replace them.
-     */
-    _timerActive: boolean;
-
-    /**
      * Indicates whether the component should be visible or not.
      */
     _visible: boolean;
@@ -64,13 +50,6 @@ interface IProps {
      */
     dispatch: IStore['dispatch'];
 }
-
-/**
- * IDs of {@code COMPONENTS} that the time-timer pill supersedes. When the
- * time-timer is enabled these are hidden from the info bar because their
- * content is already shown inside {@code TimeTimerPill}.
- */
-const TIMER_REPLACED_IDS = new Set([ 'subject', 'conference-timer' ]);
 
 const COMPONENTS: Array<{
     Component: React.ComponentType<any>;
@@ -89,10 +68,6 @@ const COMPONENTS: Array<{
         id: 'conference-timer'
     },
     {
-        Component: TimeTimerPill,
-        id: 'time-timer'
-    },
-    {
         Component: SpeakerStatsLabel,
         id: 'participants-count'
     },
@@ -106,7 +81,6 @@ const COMPONENTS: Array<{
                 <RecordingLabel mode = { JitsiRecordingConstants.mode.FILE } />
                 <RecordingLabel mode = { JitsiRecordingConstants.mode.STREAM } />
                 <TranscribingLabel />
-                <TranslationLabel />
             </>
         ),
         id: 'recording'
@@ -173,7 +147,6 @@ class ConferenceInfo extends Component<IProps> {
      */
     _renderAutoHide() {
         const { autoHide } = this.props._conferenceInfo;
-        const { _timerActive } = this.props;
 
         if (!autoHide?.length) {
             return null;
@@ -186,7 +159,6 @@ class ConferenceInfo extends Component<IProps> {
                 {
                     COMPONENTS
                         .filter(comp => autoHide.includes(comp.id))
-                        .filter(comp => !_timerActive || !TIMER_REPLACED_IDS.has(comp.id))
                         .map(c =>
                             <c.Component key = { c.id } />
                         )
@@ -202,7 +174,6 @@ class ConferenceInfo extends Component<IProps> {
      */
     _renderAlwaysVisible() {
         const { alwaysVisible } = this.props._conferenceInfo;
-        const { _timerActive } = this.props;
 
         if (!alwaysVisible?.length) {
             return null;
@@ -215,7 +186,6 @@ class ConferenceInfo extends Component<IProps> {
                 {
                     COMPONENTS
                         .filter(comp => alwaysVisible.includes(comp.id))
-                        .filter(comp => !_timerActive || !TIMER_REPLACED_IDS.has(comp.id))
                         .map(c =>
                             <c.Component key = { c.id } />
                         )
@@ -265,8 +235,7 @@ function _mapStateToProps(state: IReduxState) {
     return {
         _conferenceInfo: getConferenceInfo(state),
         _reducedUI: reducedUI,
-        _timerActive: isTimeTimerEnabled(state) && state['features/time-timer'].running,
-        _visible: isToolboxVisible(state)
+        _visible: isToolboxVisible(state),
     };
 }
 

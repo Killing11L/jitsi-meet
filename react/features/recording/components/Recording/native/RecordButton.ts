@@ -2,6 +2,7 @@ import { Platform } from 'react-native';
 import { connect } from 'react-redux';
 
 import { IReduxState } from '../../../../app/types';
+import { openDialog } from '../../../../base/dialog/actions';
 import { IOS_RECORDING_ENABLED, RECORDING_ENABLED } from '../../../../base/flags/constants';
 import { getFeatureFlag } from '../../../../base/flags/functions';
 import { translate } from '../../../../base/i18n/functions';
@@ -16,11 +17,12 @@ import AbstractRecordButton, {
     _mapStateToProps as _abstractMapStateToProps
 } from '../AbstractRecordButton';
 
+import StopRecordingDialog from './StopRecordingDialog';
+
 type Props = IProps & AbstractProps;
 
 /**
- * Button for opening the recording/transcription management screen.
- * The screen handles both starting a new session and managing a running one.
+ * Button for opening a screen where a recording session can be started.
  */
 class RecordButton extends AbstractRecordButton<Props> {
 
@@ -32,7 +34,13 @@ class RecordButton extends AbstractRecordButton<Props> {
      * @returns {void}
      */
     _onHandleClick() {
-        navigate(screen.conference.recording);
+        const { _isRecordingRunning, dispatch } = this.props;
+
+        if (_isRecordingRunning) {
+            dispatch(openDialog('StopRecordingDialog', StopRecordingDialog));
+        } else {
+            navigate(screen.conference.recording);
+        }
     }
 }
 

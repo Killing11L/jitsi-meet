@@ -21,7 +21,6 @@ import Notifications, {
 import ParticipantsPane from '../pageobjects/ParticipantsPane';
 import PasswordDialog from '../pageobjects/PasswordDialog';
 import PreJoinScreen from '../pageobjects/PreJoinScreen';
-import RecordingTranscriptionDialog from '../pageobjects/RecordingTranscriptionDialog';
 import SecurityDialog from '../pageobjects/SecurityDialog';
 import SettingsDialog from '../pageobjects/SettingsDialog';
 import Toolbar from '../pageobjects/Toolbar';
@@ -275,18 +274,20 @@ export class Participant {
         if (!options.skipPrejoinButtonClick
             // @ts-ignore
             && !Boolean(await this.execute(() => config.prejoinConfig?.enabled === false))) {
-            // The prejoin Join button can be in the DOM before conference.init has run and React click
-            // handlers are mounted (e.g. when driver.url() returns before the page fully loads on a slow
-            // remote grid, or when the iFrame API wrapper fires onload before the embedded app inits).
-            // APP.store is created during conference.init, so gate the click on it to avoid the race.
-            await this.driver.waitUntil(
-                // @ts-ignore
-                () => this.execute(() => typeof APP !== 'undefined' && Boolean(APP.store)),
-                {
-                    timeout: 30_000,
-                    timeoutMsg: `Timeout waiting for Jitsi app to initialize for ${this._name}.`
-                }
-            );
+            // For iFrame API tests, the wrapper page's iframeAPI.onload fires before the embedded Jitsi
+            // app inside the iframe has finished its own init, so the prejoin Join button can be in the
+            // DOM with no React click handler attached yet. APP.store is created during conference.init,
+            // which is also when prejoin's handlers mount; gating the click on it avoids the race.
+            if (this._iFrameApi) {
+                await this.driver.waitUntil(
+                    // @ts-ignore
+                    () => this.execute(() => typeof APP !== 'undefined' && Boolean(APP.store)),
+                    {
+                        timeout: 30_000,
+                        timeoutMsg: `Timeout waiting for embedded Jitsi app to initialize for ${this._name}.`
+                    }
+                );
+            }
 
             // if prejoin is enabled we want to click the join button
             const p1PreJoinScreen = this.getPreJoinScreen();
@@ -450,25 +451,7 @@ export class Participant {
      */
     waitForIceConnected(): Promise<boolean> {
         return this.driver.waitUntil(() =>
-            this.execute(() => {
-                const state = APP?.conference?.getConnectionState();
-
-                if (state === 'connected') {
-                    return true;
-                }
-
-                // Firefox can leave the JVB PeerConnection reporting a transient ICE
-                // 'disconnected' state (a brief consent-check blip) while the selected
-                // candidate pair keeps carrying media, and it does not always transition
-                // back to 'connected' the way Chrome does. Treat that as connected when
-                // stats show we are actually receiving media from the bridge, so a momentary
-                // disconnect does not fail the whole spec. Terminal 'failed'/'closed' keep waiting.
-                if (state === 'disconnected') {
-                    return APP?.conference?.getStats()?.bitrate?.download > 0;
-                }
-
-                return false;
-            }), {
+            this.execute(() => APP?.conference?.getConnectionState() === 'connected'), {
             timeout: 15_000,
             timeoutMsg: `expected ICE to be connected for 15s for ${this.name}`
         });
@@ -684,13 +667,6 @@ export class Participant {
     }
 
     /**
-     * Returns the unified recording & transcription dialog.
-     */
-    getRecordingTranscriptionDialog(): RecordingTranscriptionDialog {
-        return new RecordingTranscriptionDialog(this);
-    }
-
-    /**
      * Returns the prejoin screen.
      */
     getPreJoinScreen(): PreJoinScreen {
@@ -739,10 +715,6 @@ export class Participant {
         }
 
         const iframe = this.driver.$('iframe');
-
-        // The External API inserts the iframe asynchronously after the wrapper page loads, so wait for it to exist
-        // before switching rather than failing immediately with "iframe doesn't exist" on slower backends.
-        await iframe.waitForExist({ timeout: 10_000 });
 
         await this.driver.switchFrame(iframe);
         this._inMainFrame = false;

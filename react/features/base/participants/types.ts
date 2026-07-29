@@ -69,7 +69,6 @@ export interface IParticipantFeatures {
     'flip'?: boolean | string;
     'inbound-call'?: boolean | string;
     'list-visitors'?: boolean | string;
-    'live-translation'?: boolean | string;
     'livestreaming'?: boolean | string;
     'lobby'?: boolean | string;
     'moderation'?: boolean | string;
@@ -92,11 +91,9 @@ export interface IJitsiParticipant {
     getDisplayName: () => string;
     getId: () => string;
     getJid: () => string;
-    getProperty: (name: string) => any;
     getRole: () => string;
     getSources: () => Map<string, Map<string, ISourceInfo>>;
     isHidden: () => boolean;
-    isHiddenFromRecorder: () => boolean;
 }
 
 export type ParticipantFeaturesKey = keyof IParticipantFeatures;

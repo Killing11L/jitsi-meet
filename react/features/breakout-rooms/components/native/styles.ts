@@ -11,7 +11,7 @@ export default {
         marginHorizontal: BaseTheme.spacing[3]
     },
 
-    breakoutRoom: {
+    collapsibleList: {
         alignItems: 'center',
         borderRadius: BaseTheme.shape.borderRadius,
         display: 'flex',

@@ -15,7 +15,7 @@ import AbstractRecordingLabel, {
     IProps as AbstractProps,
     _mapStateToProps as _abstractMapStateToProps
 } from '../AbstractRecordingLabel';
-import RecordingTranscriptionDialog from '../Recording/web/RecordingTranscriptionDialog';
+import StopRecordingDialog from '../Recording/web/StopRecordingDialog';
 
 interface IProps extends AbstractProps {
 
@@ -76,7 +76,7 @@ class RecordingLabel extends AbstractRecordingLabel<IProps> {
      */
     _onClick() {
         if (this.props._canControlRecording) {
-            this.props.dispatch(openDialog('RecordingTranscriptionDialog', RecordingTranscriptionDialog));
+            this.props.dispatch(openDialog('StopRecordingDialog', StopRecordingDialog));
         }
     }
 

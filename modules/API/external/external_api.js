@@ -67,10 +67,8 @@ const commands = {
     setFollowMe: 'set-follow-me',
     setLargeVideoParticipant: 'set-large-video-participant',
     setMediaEncryptionKey: 'set-media-encryption-key',
-    setMeetingTimer: 'set-meeting-timer',
     setNoiseSuppressionEnabled: 'set-noise-suppression-enabled',
     setParticipantVolume: 'set-participant-volume',
-    setSecondScreen: 'set-second-screen',
     setSubtitles: 'set-subtitles',
     setTileView: 'set-tile-view',
     setVideoQuality: 'set-video-quality',
@@ -111,9 +109,6 @@ const events = {
     '_pip-requested': '_pipRequested',
     'pip-entered': 'pipEntered',
     'pip-left': 'pipLeft',
-    'second-screen-source-changed': 'secondScreenSourceChanged',
-    'second-screen-closed': 'secondScreenClosed',
-    'second-screen-error': 'secondScreenError',
     'avatar-changed': 'avatarChanged',
     'audio-availability-changed': 'audioAvailabilityChanged',
     'audio-mute-status-changed': 'audioMuteStatusChanged',
@@ -135,7 +130,6 @@ const events = {
     'email-change': 'emailChange',
     'error-occurred': 'errorOccurred',
     'endpoint-text-message-received': 'endpointTextMessageReceived',
-    'external-share-signal': 'externalShareSignal',
     'face-landmark-detected': 'faceLandmarkDetected',
     'feedback-submitted': 'feedbackSubmitted',
     'feedback-prompt-displayed': 'feedbackPromptDisplayed',
@@ -367,31 +361,17 @@ export default class JitsiMeetExternalAPI extends EventEmitter {
         const frameName = `jitsiConferenceFrame${id}`;
 
         this._frame = document.createElement('iframe');
-
-        const allow = [
+        this._frame.allow = [
             'autoplay',
             'camera',
             'clipboard-write',
             'compute-pressure',
             'display-capture',
-            'fullscreen',
             'hid',
             'microphone',
             'screen-wake-lock',
             'speaker-selection'
-        ];
-
-        // Needed by the multi-screen feature (`setSecondScreen`) to enumerate displays and place
-        // a window on a second screen. Only delegates the capability; the actual permission is
-        // still user/policy-gated (granted on managed/kiosk devices). Gated to engines that expose
-        // the Window Management API (Chromium): elsewhere the directive is unrecognized and logs a
-        // console warning. Checking for the API directly avoids pulling a browser-detection library
-        // into this (size-limited) embedder bundle.
-        if ('getScreenDetails' in window) {
-            allow.push('window-management');
-        }
-
-        this._frame.allow = allow.join('; ');
+        ].join('; ');
         this._frame.name = frameName;
         this._frame.id = frameName;
         this._setSize(height, width);
@@ -757,36 +737,22 @@ export default class JitsiMeetExternalAPI extends EventEmitter {
     /**
      * Returns the rooms info in the conference.
      *
-     * @param {boolean} includeHidden - Whether to include hidden participants
-     * (e.g. Jibri, transcriber) in the result. Defaults to false.
-     * @returns {Promise<Object>} Rooms info.
+     * @returns {Object} Rooms info.
      */
-    getRoomsInfo(includeHidden = false) {
+    getRoomsInfo() {
         return this._transport.sendRequest({
-            name: 'rooms-info',
-            includeHidden
+            name: 'rooms-info'
         });
     }
 
     /**
      * Returns the Shared Document Url of the conference.
      *
-     * @returns {Promise<string>} Shared Document URL.
+     * @returns {Object} Rooms info.
      */
     getSharedDocumentUrl() {
         return this._transport.sendRequest({
             name: 'get-shared-document-url'
-        });
-    }
-
-    /**
-     * Returns the connection stats of the conference.
-     *
-     * @returns {Promise<Object>} Connection stats (bitrate, packet loss, etc).
-     */
-    getConnectionStats() {
-        return this._transport.sendRequest({
-            name: 'connection-stats'
         });
     }
 
@@ -1499,22 +1465,6 @@ export default class JitsiMeetExternalAPI extends EventEmitter {
         this._transport.sendEvent({
             data: [ event ],
             name: 'proxy-connection-event'
-        });
-    }
-
-    /**
-     * Sends a direct-cast screenshare signalling message (offer / ICE candidate / stop)
-     * from the sharer INTO this meeting's Jitsi Meet. The successor to
-     * {@link sendProxyConnectionEvent} — plain SDP/ICE over a vanilla RTCPeerConnection,
-     * no Jingle, no XMPP. The meeting answers via the {@code externalShareSignal} event.
-     *
-     * @param {Object} signal - The signalling message ({ kind, sdp | candidate }).
-     * @returns {void}
-     */
-    sendExternalShareSignal(signal) {
-        this._transport.sendEvent({
-            data: [ signal ],
-            name: 'external-share-signal'
         });
     }
 

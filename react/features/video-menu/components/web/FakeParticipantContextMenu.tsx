@@ -140,7 +140,6 @@ const FakeParticipantContextMenu = ({
 
     return (
         <ContextMenu
-            activateFocusTrap = { !thumbnailMenu }
             className = { className }
             entity = { participant }
             hidden = { thumbnailMenu ? false : undefined }
@@ -148,7 +147,6 @@ const FakeParticipantContextMenu = ({
             isDrawerOpen = { Boolean(drawerParticipant) }
             offsetTarget = { offsetTarget }
             onClick = { onSelect }
-            onClickOutside = { thumbnailMenu ? undefined : clickHandler }
             onDrawerClose = { thumbnailMenu ? onSelect : closeDrawer }
             onMouseEnter = { onEnter }
             onMouseLeave = { onLeave }>

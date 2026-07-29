@@ -40,11 +40,10 @@ export const getMainRoom = (stateful: IStateful) => {
  * Returns the rooms info.
  *
  * @param {IStateful} stateful - The redux store, the redux.
- * @param {boolean} includeHidden - Whether to include hidden participants
- * (e.g. Jibri, transcriber) in the result. Defaults to false.
- * @returns {IRoomsInfo} The rooms info.
+
+* @returns {IRoomsInfo} The rooms info.
  */
-export const getRoomsInfo = (stateful: IStateful, includeHidden = false) => {
+export const getRoomsInfo = (stateful: IStateful) => {
     const state = toState(stateful);
     const localParticipant = getLocalParticipant(stateful);
     const jwtUser = state['features/base/jwt']?.user;
@@ -66,7 +65,7 @@ export const getRoomsInfo = (stateful: IStateful, includeHidden = false) => {
     if (!breakoutRooms || Object.keys(breakoutRooms).length === 0) {
         // filter out hidden participants
         const conferenceParticipants = conference?.getParticipants()
-            .filter((participant: IJitsiParticipant) => includeHidden || !participant.isHidden());
+            .filter((participant: IJitsiParticipant) => !participant.isHidden());
 
         let localParticipantInfo;
 
@@ -98,9 +97,7 @@ export const getRoomsInfo = (stateful: IStateful, includeHidden = false) => {
                                 displayName: participantItem.getDisplayName(),
                                 avatarUrl: storeParticipant?.loadableAvatarUrl,
                                 id: participantItem.getId(),
-                                userContext: storeParticipant?.userContext,
-                                isJigasi: participantItem.getProperty('features_jigasi') === true,
-                                isJibri: participantItem.isHidden() || participantItem.isHiddenFromRecorder()
+                                userContext: storeParticipant?.userContext
                             } as IRoomInfoParticipant;
                         }) ]
                     : [ localParticipantInfo ]

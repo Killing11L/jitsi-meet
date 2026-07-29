@@ -30,9 +30,7 @@ const defaultExpectations = {
             // Expect "async" transcription to be enabled.
             asyncTranscription: true,
             // Expect the JaaS transcription webhooks to fire in "async" mode.
-            asyncTranscriptionWebhook: true,
-            // Expect (deprecated) jigasi-based transcription to be enabled.
-            jigasiTranscription: true
+            asyncTranscriptionWebhook: true
         },
         /**
          * Whether the jaas account is configured with the account-level setting to allow unauthenticated users to join.
@@ -52,16 +50,6 @@ const defaultExpectations = {
         // Whether the ability to set a password is available (there's a backend options which makes moderators unable
         // to set a room password unless they also happen to have a token (any valid token?))
         setPasswordAvailable: true
-    },
-    connectivity: {
-        jvb: {
-            direct: true,
-            turn: true
-        },
-        p2p: {
-            direct: false,
-            turn: true
-        }
     },
     // We can create conferences under any tenant.
     useTenant: true

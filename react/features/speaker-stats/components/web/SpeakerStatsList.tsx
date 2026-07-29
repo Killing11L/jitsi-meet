@@ -31,7 +31,6 @@ const useStyles = makeStyles()(theme => {
                     backgroundColor: theme.palette.speakerStatsRowBackground
                 },
                 '& .display-name': {
-                    userSelect: 'text',
                     ...theme.typography.bodyShortRegular,
                     [theme.breakpoints.down(MOBILE_BREAKPOINT)]: {
                         ...theme.typography.bodyShortRegularLarge

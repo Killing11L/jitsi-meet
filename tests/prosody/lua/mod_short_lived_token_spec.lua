@@ -58,7 +58,7 @@ package.preload['util.stanza'] = function()
     }
 end
 
-package.preload['util.throttle'] = function()
+package.preload['prosody.util.throttle'] = function()
     return { create = function() return {} end }
 end
 
