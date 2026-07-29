@@ -20,7 +20,7 @@ import { BusinessError } from '@kit.BasicServicesKit';
 import bundleManager from '@ohos.bundle.bundleManager';
 import hilog from '@ohos.hilog';
 import { UITurboModule } from '@rnoh/react-native-openharmony';
-import { OngoingConferenceConstants } from '../Type';
+import { OngoingConferenceConstants, OngoingConferenceActionEvent } from '../Type';
 
 /**
  * 对应 android/sdk 的 JitsiMeetOngoingConferenceService + OngoingNotification
@@ -200,7 +200,7 @@ export class JitsiOngoingConferenceModule extends UITurboModule {
     const info: wantAgent.WantAgentInfo = {
       wants: [{
         action: JitsiOngoingConferenceModule.EVT_SET_AUDIO_MUTED,
-        parameters: { muted: targetMuted } as Record<string, Object>
+        parameters: { muted: targetMuted }
       }],
       actionType: wantAgent.OperationType.SEND_COMMON_EVENT,
       requestCode: 1,
@@ -356,10 +356,11 @@ export class JitsiOngoingConferenceModule extends UITurboModule {
     }
 
     try {
-      this.ctx.rnInstance.emitDeviceEvent(OngoingConferenceConstants.ACTION_EVENT, {
+      const payload: OngoingConferenceActionEvent = {
         action,
         muted
-      } as Record<string, Object>);
+      };
+      this.ctx.rnInstance.emitDeviceEvent(OngoingConferenceConstants.ACTION_EVENT, payload);
     } catch (e) {
       hilog.warn(JitsiOngoingConferenceModule.DOMAIN, JitsiOngoingConferenceModule.TAG,
         `emitDeviceEvent failed: ${(e as Error).message}`);
