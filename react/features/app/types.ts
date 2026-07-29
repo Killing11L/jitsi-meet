@@ -2,7 +2,6 @@ import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 
 import { IAnalyticsState } from '../analytics/reducer';
-import { IAudioTranslationState } from '../audio-translation/reducer';
 import { IAuthenticationState } from '../authentication/reducer';
 import { IAVModerationState } from '../av-moderation/reducer';
 import { IAppState } from '../base/app/reducer';
@@ -54,7 +53,6 @@ import { IMobileAudioModeState } from '../mobile/audio-mode/reducer';
 import { IMobileBackgroundState } from '../mobile/background/reducer';
 import { ICallIntegrationState } from '../mobile/call-integration/reducer';
 import { IMobileExternalApiState } from '../mobile/external-api/reducer';
-import { IMultiScreenState } from '../multi-screen/reducer';
 import { INoAudioSignalState } from '../no-audio-signal/reducer';
 import { INoiseDetectionState } from '../noise-detection/reducer';
 import { INoiseSuppressionState } from '../noise-suppression/reducer';
@@ -76,7 +74,6 @@ import { ISharedVideoState } from '../shared-video/reducer';
 import { ISpeakerStatsState } from '../speaker-stats/reducer';
 import { ISubtitlesState } from '../subtitles/reducer';
 import { ITalkWhileMutedState } from '../talk-while-muted/reducer';
-import { ITimeTimerState } from '../time-timer/reducer';
 import { IToolboxState } from '../toolbox/reducer';
 import { ITranscribingState } from '../transcribing/reducer';
 import { IVideoLayoutState } from '../video-layout/reducer';
@@ -94,7 +91,6 @@ export interface IStore {
 
 export interface IReduxState {
     'features/analytics': IAnalyticsState;
-    'features/audio-translation': IAudioTranslationState;
     'features/authentication': IAuthenticationState;
     'features/av-moderation': IAVModerationState;
     'features/base/app': IAppState;
@@ -147,7 +143,6 @@ export interface IReduxState {
     'features/mobile/audio-mode': IMobileAudioModeState;
     'features/mobile/background': IMobileBackgroundState;
     'features/mobile/external-api': IMobileExternalApiState;
-    'features/multi-screen': IMultiScreenState;
     'features/no-audio-signal': INoAudioSignalState;
     'features/noise-detection': INoiseDetectionState;
     'features/noise-suppression': INoiseSuppressionState;
@@ -171,7 +166,6 @@ export interface IReduxState {
     'features/subtitles': ISubtitlesState;
     'features/talk-while-muted': ITalkWhileMutedState;
     'features/testing': ITestingState;
-    'features/time-timer': ITimeTimerState;
     'features/toolbox': IToolboxState;
     'features/transcribing': ITranscribingState;
     'features/video-layout': IVideoLayoutState;

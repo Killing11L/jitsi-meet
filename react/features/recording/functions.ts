@@ -12,7 +12,6 @@ import { isSpotTV } from '../base/util/spot';
 import { isInBreakoutRoom as isInBreakoutRoomF } from '../breakout-rooms/functions';
 import { isEnabled as isDropboxEnabled } from '../dropbox/functions';
 import { extractFqnFromPath } from '../dynamic-branding/functions.any';
-import { isVpaasMeeting } from '../jaas/functions';
 import { canAddTranscriber, isRecorderTranscriptionsRunning } from '../transcribing/functions';
 import { iAmVisitor } from '../visitors/functions';
 
@@ -148,8 +147,8 @@ export function getSessionStatusToShow(state: IReduxState, mode: string): string
             }
         }
     }
-    if (mode === JitsiRecordingConstants.mode.FILE
-            && (state['features/recording'].localRecordingRunning || isRemoteParticipantRecordingLocally(state))) {
+    if (!status && mode === JitsiRecordingConstants.mode.FILE
+            && (LocalRecordingManager.isRecordingLocally() || isRemoteParticipantRecordingLocally(state))) {
         status = JitsiRecordingConstants.status.ON;
     }
 
@@ -194,7 +193,7 @@ export function isLiveStreamingRunning(state: IReduxState) {
 export function isRecordingRunning(state: IReduxState) {
     return (
         isCloudRecordingRunning(state)
-        || Boolean(state['features/recording'].localRecordingRunning)
+        || LocalRecordingManager.isRecordingLocally()
     );
 }
 
@@ -217,7 +216,7 @@ export function hasRecordingOrTranscriptionFeature(state: IReduxState) {
  * @returns {boolean}
  */
 export function canStopRecording(state: IReduxState) {
-    if (state['features/recording'].localRecordingRunning) {
+    if (LocalRecordingManager.isRecordingLocally()) {
         return true;
     }
 
@@ -291,10 +290,6 @@ export function getRecordButtonProps(state: IReduxState) {
         visible = recordingEnabled;
     } else if (isJwtFeatureEnabled(state, MEET_FEATURES.TRANSCRIPTION, false)) {
         visible = transcriptionEnabled;
-    } else if (!isVpaasMeeting(state)) {
-        // Self-hosted without JWT: fall back to server config so moderators
-        // see the button when recordingService.enabled or transcription.enabled.
-        visible = recordingEnabled || transcriptionEnabled;
     }
 
     // disable the button if the livestreaming is running.

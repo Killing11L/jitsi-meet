@@ -68,17 +68,14 @@ const AbstractPollResults = (Component: ComponentType<AbstractProps>) => (props:
 
         // Getting every voters ID that participates to the poll
         for (const answer of poll.answers) {
-            const answerVoters = Array.isArray(answer.voters) ? answer.voters : undefined;
-
-            answerVoters?.forEach(k => allVoters.add(k.id));
+            answer.voters?.forEach(k => allVoters.add(k.id));
         }
 
         return poll.answers.map(answer => {
-            const answerVoters = Array.isArray(answer.voters) ? answer.voters : undefined;
-            const nrOfVotersPerAnswer = answerVoters?.length || 0;
+            const nrOfVotersPerAnswer = answer.voters?.length || 0;
             const percentage = allVoters.size > 0 ? Math.round(nrOfVotersPerAnswer / allVoters.size * 100) : 0;
 
-            const voters = answerVoters?.reduce((acc, v) => {
+            const voters = answer.voters?.reduce((acc, v) => {
                 acc.push({
                     id: v.id,
                     name: getParticipantById(reduxState, v.id)

@@ -1,7 +1,6 @@
 import React, { Component, ReactElement } from 'react';
 
 import { IReduxState } from '../../app/types';
-import { getParticipantDisplayName } from '../../base/participants/functions';
 
 
 /**
@@ -101,9 +100,7 @@ function _constructTranscripts(state: IReduxState): Map<string, string> {
 
     for (const [ id, transcriptMessage ] of _transcriptMessages) {
         if (transcriptMessage) {
-            // Resolve the speaker name from the store (like the CC panel does) rather than relying on
-            // the name sent by the transcriber, which may be missing.
-            let text = `${getParticipantDisplayName(state, transcriptMessage.participant.id ?? '')}: `;
+            let text = `${transcriptMessage.participant.name}: `;
 
             if (transcriptMessage.final) {
                 text += transcriptMessage.final;

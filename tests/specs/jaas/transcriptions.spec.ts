@@ -10,10 +10,7 @@ setTestProperties(__filename, {
     usesBrowsers: [ 'p1', 'p2' ]
 });
 
-const asyncTranscriptionValues = [
-    ...expectations.jaas.transcription.jigasiTranscription ? [ false ] : [],
-    ...expectations.jaas.transcription.asyncTranscription ? [ true ] : []
-];
+const asyncTranscriptionValues = expectations.jaas.transcription.asyncTranscription ? [ false, true ] : [ false ];
 
 for (const asyncTranscriptions of asyncTranscriptionValues) {
     describe(`Transcription (async=${asyncTranscriptions})`, () => {

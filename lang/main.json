@@ -42,15 +42,6 @@
     "audioOnly": {
         "audioOnly": "Low bandwidth"
     },
-    "audioTranslation": {
-        "disabledForRoom": "Audio translation has been turned off for this meeting.",
-        "errorForbidden": "You don't have permission to use audio translation.",
-        "errorGeneric": "Couldn't enable audio translation. Please try again.",
-        "errorLimitReached": "Couldn't translate everyone at once. Turn on translation for individual participants instead.",
-        "errorRoomDisabled": "Audio translation is turned off for this meeting. Enable it in Moderator settings.",
-        "errorSpeakerUnavailable": "Can't translate this participant — they're no longer in the meeting.",
-        "labelTooltip": "Translation in progress"
-    },
     "bandwidthSettings": {
         "assumedBandwidthBps": "e.g. 10000000 for 10 Mbps",
         "assumedBandwidthBpsWarning": "Higher values might cause network issues.",
@@ -323,7 +314,6 @@
         "alreadySharedVideoMsg": "Another participant is already sharing a video. This conference allows only one shared video at a time.",
         "alreadySharedVideoTitle": "Only one shared video is allowed at a time",
         "applicationWindow": "Application window",
-        "applyChanges": "Apply changes",
         "authenticationRequired": "Authentication required",
         "cameraCaptureDialog": {
             "description": "Take and send a picture using your mobile camera",
@@ -459,7 +449,6 @@
         "permissionMicRequiredError": "Microphone permission is required to participate in conferences with audio. Please grant it in Settings",
         "readMore": "more",
         "recentlyUsedObjects": "Your recently used objects",
-        "recordAndTranscribe": "Record & Transcribe",
         "recording": "Recording",
         "recordingDisabledBecauseOfActiveLiveStreamingTooltip": "Not possible while a live stream is active",
         "recordingInProgressDescription": "This meeting is being recorded and analyzed by AI. Your audio and video have been muted. If you choose to unmute, you consent to being recorded.",
@@ -528,14 +517,10 @@
         "startLiveStreaming": "Start live stream",
         "startRecording": "Start recording",
         "startRemoteControlErrorMessage": "An error occurred while trying to start the remote control session!",
-        "startTranscribing": "Start transcribing",
-        "startTranscription": "Start transcription",
         "stopLiveStreaming": "Stop live stream",
         "stopRecording": "Stop recording",
         "stopRecordingWarning": "Are you sure you would like to stop the recording?",
         "stopStreamingWarning": "Are you sure you would like to stop the live streaming?",
-        "stopTranscription": "Stop transcription",
-        "stopTranscriptionWarning": "Are you sure you would like to stop the transcription?",
         "streamKey": "Live stream key",
         "suggestedAccounts": "Suggested Accounts",
         "suggestedDeals": "Suggested Deals",
@@ -837,13 +822,6 @@
         "youAreAlone": "You are the only one in the meeting"
     },
     "me": "me",
-    "multiScreen": {
-        "noParticipants": "No participants",
-        "showOnStage": "Show {{name}} on the second screen",
-        "unpinFromStage": "Stop featuring {{name}} on the second screen",
-        "whiteboardInactive": "Open the whiteboard in the meeting to show it on the second screen",
-        "whiteboardTitle": "Whiteboard"
-    },
     "notify": {
         "OldElectronAPPTitle": "Security vulnerability!",
         "allowAll": "Allow All",
@@ -1157,7 +1135,6 @@
         }
     },
     "recording": {
-        "alsoTranscribe": "Also transcribe this meeting?",
         "authDropboxText": "Upload to Dropbox",
         "availableSpace": "Available space: {{spaceLeft}} MB (approximately {{duration}} minutes of recording)",
         "beta": "BETA",
@@ -1201,7 +1178,7 @@
         "policyError": "You tried to start a recording too quickly. Please try again later!",
         "recordAudioAndVideo": "Record audio and video",
         "recordTranscription": "Record transcription",
-        "saveLocalRecording": "Save recording file locally",
+        "saveLocalRecording": "Save recording file locally (Beta)",
         "serviceDescription": "Your recording will be saved by the recording service",
         "serviceDescriptionCloud": "Cloud recording",
         "serviceDescriptionCloudInfo": "Recorded meetings are automatically cleared 24h after their recording time.",
@@ -1224,7 +1201,7 @@
         "about": "You can add a $t(lockRoomPassword) to your meeting. Participants will need to provide the $t(lockRoomPassword) before they are allowed to join the meeting.",
         "aboutReadOnly": "Moderator participants can add a $t(lockRoomPassword) to the meeting. Participants will need to provide the $t(lockRoomPassword) before they are allowed to join the meeting.",
         "insecureRoomNameWarningNative": "The room name is unsafe. Unwanted participants may join your meeting. {{recommendAction}} Learn more about securing your meeting ",
-        "insecureRoomNameWarningWeb": "The room name is unsafe. Unwanted participants may join your meeting. {{recommendAction}} Learn more about securing your meeting <a href=\"{{securityUrl}}\" target=\"_blank\">here</a>.",
+        "insecureRoomNameWarningWeb": "The room name is unsafe. Unwanted participants may join your meeting. {{recommendAction}} Learn more about securing your meeting <a href=\"{{securityUrl}}\" rel=\"security\" target=\"_blank\">here</a>.",
         "title": "Security Options",
         "unsafeRoomActions": {
             "meeting": "Consider securing your meeting using the security button.",
@@ -1234,7 +1211,6 @@
     },
     "settings": {
         "audio": "Audio",
-        "audioTranslation": "Enable audio translation",
         "buttonLabel": "Settings",
         "calendar": {
             "about": "The {{appName}} calendar integration is used to securely access your calendar so it can read upcoming events.",
@@ -1353,10 +1329,6 @@
     "termsView": {
         "title": "Terms"
     },
-    "timeTimer": {
-        "endedOver": "You are {{time}} over schedule.",
-        "endedTitle": "Timer ended"
-    },
     "toggleTopPanelLabel": "Toggle top panel",
     "toolbar": {
         "Settings": "Settings",
@@ -1364,7 +1336,6 @@
             "Settings": "Open settings",
             "audioOnly": "Toggle audio only",
             "audioRoute": "Select the sound device",
-            "audioTranslation": "Translate audio",
             "boo": "Boo",
             "breakoutRooms": "Breakout rooms",
             "callQuality": "Manage video quality",
@@ -1473,8 +1444,6 @@
         "audioOnlyOn": "Enable low bandwidth mode",
         "audioRoute": "Select the sound device",
         "audioSettings": "Audio settings",
-        "audioTranslation": "Translate audio",
-        "audioTranslationOff": "Off",
         "authenticate": "Authenticate",
         "boo": "Boo",
         "callQuality": "Manage video quality",
@@ -1550,8 +1519,6 @@
         "reactionSilence": "Send silence reaction",
         "reactionSurprised": "Send surprised reaction",
         "reactions": "Reactions",
-        "record": "Record",
-        "recordAndTranscribe": "Record & Transcribe",
         "security": "Security options",
         "selectBackground": "Select background",
         "shareRoom": "Invite someone",
@@ -1578,7 +1545,6 @@
         "videounmute": "Start camera"
     },
     "transcribing": {
-        "alsoRecord": "Also record this meeting?",
         "ccButtonTooltip": "Start / Stop subtitles",
         "expandedLabel": "Transcribing is currently on",
         "failed": "Transcribing failed",
@@ -1653,13 +1619,10 @@
         "mute": "Participant is muted",
         "muted": "Muted",
         "pinToStage": "Pin to stage",
-        "receivingTranslatedAudio": "You're receiving translated audio",
         "remoteControl": "Start / Stop remote control",
         "screenSharing": "Participant is sharing their screen",
         "show": "Show on stage",
         "showSelfView": "Show self view",
-        "translationEnabledForYou": "Translation enabled for you",
-        "translationOnAndReceiving": "Translation on · receiving",
         "unpinFromStage": "Unpin",
         "verify": "Verify participant",
         "videoMuted": "Camera disabled",

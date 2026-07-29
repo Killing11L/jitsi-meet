@@ -1,4 +1,4 @@
-import { getBundleId } from 'react-native-device-info';
+import DeviceInfo from 'react-native-device-info';
 
 /**
  * BUndle ids for the Jitsi Meet apps.
@@ -22,7 +22,7 @@ const JITSI_MEET_APPS = [
  * @returns {boolean} Whether the current app is a Jitsi Meet app.
  */
 export function isEmbedded(): boolean {
-    return !JITSI_MEET_APPS.includes(getBundleId());
+    return !JITSI_MEET_APPS.includes(DeviceInfo.getBundleId());
 }
 
 /**

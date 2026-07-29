@@ -32,6 +32,7 @@ let CallKit: any;
 if (RNCallKit) {
     const eventEmitter = new NativeEventEmitter(RNCallKit);
     const augmented: Record<string, any> = {
+        addListener: eventEmitter.addListener.bind(eventEmitter),
         registerSubscriptions(context: any, delegate: any) {
             RNCallKit.setProviderConfiguration({
                 iconTemplateImageName: 'CallKitIcon',

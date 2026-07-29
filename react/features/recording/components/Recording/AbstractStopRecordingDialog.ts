@@ -61,13 +61,6 @@ export interface IProps extends WithTranslation {
      * The user trying to stop the video while local recording is running.
      */
     localRecordingVideoStop?: boolean;
-
-    /**
-     * Controls which service is stopped: 'recording' stops the file recording
-     * session, 'transcription' stops only transcription and leaves recording
-     * running.
-     */
-    stopMode: 'recording' | 'transcription';
 }
 
 /**
@@ -108,53 +101,42 @@ export default class AbstractStopRecordingDialog<P extends IProps>
             _subtitlesLanguage,
             _transcriptionRunning,
             dispatch,
-            localRecordingVideoStop,
-            stopMode
+            localRecordingVideoStop
         } = this.props;
 
-        const stoppingRecording = stopMode === 'recording';
-        const stoppingTranscription = stopMode === 'transcription';
-
-        // Pre-seed stopRecordingIntent so the off-sound/notification coordinator
-        // (maybeNotifyRecordingStop) knows what to wait for. Each button only
-        // signals the service it is responsible for stopping.
+        // Pre-seed stopRecordingIntent from current running state so the
+        // off-sound/notification coordinator (maybeNotifyRecordingStop) knows
+        // what to wait for. Local recording has its own inline sound path and
+        // does not flow through this coordinator.
         if (!_localRecording) {
-            const recordingRunning = stoppingRecording && Boolean(_fileRecordingSession);
-            const transcriptionRunning = stoppingTranscription && _transcriptionRunning;
+            const recordingRunning = Boolean(_fileRecordingSession);
 
-            if (recordingRunning || transcriptionRunning) {
+            if (recordingRunning || _transcriptionRunning) {
                 dispatch(setStopRecordingIntent({
                     recording: recordingRunning,
-                    transcription: transcriptionRunning
+                    transcription: _transcriptionRunning
                 }));
             }
         }
 
-        if (stoppingRecording) {
-            if (_localRecording) {
-                dispatch(stopLocalVideoRecording());
-                if (localRecordingVideoStop) {
-                    dispatch(setVideoMuted(true));
-                }
-            } else if (_fileRecordingSession) {
-                _conference?.stopRecording(_fileRecordingSession.id);
-                this._toggleScreenshotCapture();
+        if (_localRecording) {
+            dispatch(stopLocalVideoRecording());
+            if (localRecordingVideoStop) {
+                dispatch(setVideoMuted(true));
             }
-
-            _conference?.getMetadataHandler().setMetadata(RECORDING_METADATA_ID, {
-                isRecordingRequested: false
-            });
+        } else if (_fileRecordingSession) {
+            _conference?.stopRecording(_fileRecordingSession.id);
+            this._toggleScreenshotCapture();
         }
 
-        if (stoppingTranscription) {
-            // TODO: this should be an action in transcribing. -saghul
-            dispatch(
-                setRequestingSubtitles(Boolean(_displaySubtitles), _displaySubtitles, _subtitlesLanguage, true));
+        // TODO: this should be an action in transcribing. -saghul
+        this.props.dispatch(
+            setRequestingSubtitles(Boolean(_displaySubtitles), _displaySubtitles, _subtitlesLanguage, true));
 
-            _conference?.getMetadataHandler().setMetadata(RECORDING_METADATA_ID, {
-                isTranscribingEnabled: false
-            });
-        }
+        this.props._conference?.getMetadataHandler().setMetadata(RECORDING_METADATA_ID, {
+            isRecordingRequested: false,
+            isTranscribingEnabled: false
+        });
 
         return true;
     }

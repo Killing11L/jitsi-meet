@@ -6,8 +6,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import AudioTranslationDialog
-    from '../../../../../audio-translation/components/native/AudioTranslationDialog';
 import BreakoutRooms
 // @ts-ignore
     from '../../../../../breakout-rooms/components/native/BreakoutRooms';
@@ -30,9 +28,9 @@ import AddPeopleDialog
 import ParticipantsPane from '../../../../../participants-pane/components/native/ParticipantsPane';
 // @ts-ignore
 import StartLiveStreamDialog from '../../../../../recording/components/LiveStream/native/StartLiveStreamDialog';
-import RecordingTranscriptionDialog
+import StartRecordingDialog
 // @ts-ignore
-    from '../../../../../recording/components/Recording/native/RecordingTranscriptionDialog';
+    from '../../../../../recording/components/Recording/native/StartRecordingDialog';
 import SalesforceLinkDialog
 // @ts-ignore
     from '../../../../../salesforce/components/native/SalesforceLinkDialog';
@@ -50,7 +48,6 @@ import Whiteboard from '../../../../../whiteboard/components/native/Whiteboard';
 // @ts-ignore
 import { screen } from '../../../routes';
 import {
-    audioTranslationScreenOptions,
     breakoutRoomsScreenOptions,
     carmodeScreenOptions,
     chatScreenOptions,
@@ -150,11 +147,11 @@ const ConferenceNavigationContainer = () => {
                         title: t('security.title')
                     }} />
                 <ConferenceStack.Screen
-                    component = { RecordingTranscriptionDialog }
+                    component = { StartRecordingDialog }
                     name = { screen.conference.recording }
                     options = {{
                         ...recordingScreenOptions,
-                        title: t('dialog.recordAndTranscribe')
+                        title: t('recording.title')
                     }} />
                 <ConferenceStack.Screen
                     component = { StartLiveStreamDialog }
@@ -224,13 +221,6 @@ const ConferenceNavigationContainer = () => {
                     options = {{
                         ...subtitlesScreenOptions,
                         title: t('transcribing.subtitles')
-                    }} />
-                <ConferenceStack.Screen
-                    component = { AudioTranslationDialog }
-                    name = { screen.conference.audioTranslation }
-                    options = {{
-                        ...audioTranslationScreenOptions,
-                        title: t('toolbar.audioTranslation')
                     }} />
                 <ConferenceStack.Screen
                     component = { BreakoutRooms }

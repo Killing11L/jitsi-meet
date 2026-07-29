@@ -2,7 +2,6 @@ import React, { useCallback } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
-import TranslationLabel from '../../../audio-translation/components/native/TranslationLabel';
 import { JitsiRecordingConstants } from '../../../base/lib-jitsi-meet';
 import { openHighlightDialog } from '../../../recording/actions.native';
 import HighlightButton from '../../../recording/components/Recording/native/HighlightButton';
@@ -13,7 +12,6 @@ import VisitorsCountLabel from '../../../visitors/components/native/VisitorsCoun
 
 import RaisedHandsCountLabel from './RaisedHandsCountLabel';
 import {
-    LABEL_ID_AUDIO_TRANSLATION,
     LABEL_ID_RAISED_HANDS_COUNT,
     LABEL_ID_RECORDING,
     LABEL_ID_STREAMING,
@@ -65,11 +63,6 @@ const AlwaysOnLabels = ({ createOnPress }: IProps) => {
             hitSlop = { LabelHitSlop }
             onPress = { createOnPress(LABEL_ID_RAISED_HANDS_COUNT) } >
             <RaisedHandsCountLabel />
-        </TouchableOpacity>
-        <TouchableOpacity
-            hitSlop = { LabelHitSlop }
-            onPress = { createOnPress(LABEL_ID_AUDIO_TRANSLATION) } >
-            <TranslationLabel />
         </TouchableOpacity>
         <TouchableOpacity
             hitSlop = { LabelHitSlop }

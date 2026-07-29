@@ -162,11 +162,7 @@ export function getModeratorTabProps(stateful: IStateful) {
     } = state['features/base/conference'];
     const { followMeEnabled, followMeRecorderEnabled } = state['features/follow-me'];
     const { groupChatWithPermissions } = state['features/chat'];
-    const {
-        audioTranslation,
-        showChatPermissionsModeratorSetting,
-        disableReactionsModeration
-    } = state['features/base/config'];
+    const { showChatPermissionsModeratorSetting, disableReactionsModeration } = state['features/base/config'];
     const followMeActive = isFollowMeActive(state);
     const followMeRecorderActive = isFollowMeRecorderActive(state);
     const showModeratorSettings = shouldShowModeratorSettings(state);
@@ -178,8 +174,6 @@ export function getModeratorTabProps(stateful: IStateful) {
     // The settings sections to display.
     return {
         audioModerationEnabled: isAudioModerationEnabled,
-        audioTranslationEnabled: Boolean(conference) && conferenceMetadata?.audioTranslation?.enabled !== false,
-        showAudioTranslation: Boolean(audioTranslation?.enabled),
         videoModerationEnabled: isVideoModerationEnabled,
         chatWithPermissionsEnabled: Boolean(groupChatWithPermissions),
         showModeratorSettings: Boolean(conference && showModeratorSettings),

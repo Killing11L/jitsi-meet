@@ -22,12 +22,6 @@ import logger from '../logger';
 interface IState {
 
     /**
-     * Whether an error was caught while rendering the tree below this
-     * {@code BaseApp}.
-     */
-    hasError?: boolean;
-
-    /**
      * The {@code Route} rendered by the {@code BaseApp}.
      */
     route: {
@@ -63,19 +57,8 @@ export default class BaseApp<P> extends Component<P, IState> {
 
         this.state = {
             route: {},
-            store: undefined,
-            hasError: false
+            store: undefined
         };
-    }
-
-    /**
-     * Updates the state so the next render shows the fallback instead of
-     * unmounting the whole tree when a descendant throws while rendering.
-     *
-     * @returns {Object}
-     */
-    static getDerivedStateFromError() {
-        return { hasError: true };
     }
 
     /**
@@ -181,11 +164,7 @@ export default class BaseApp<P> extends Component<P, IState> {
      * @returns {ReactElement}
      */
     override render() {
-        const { hasError, route: { component, props }, store } = this.state;
-
-        if (hasError) {
-            return null;
-        }
+        const { route: { component, props }, store } = this.state;
 
         if (store) {
             return (

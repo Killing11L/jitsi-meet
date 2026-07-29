@@ -22,7 +22,6 @@ import {
     CLEAR_RECORDING_SESSIONS,
     MARK_CONSENT_REQUESTED,
     RECORDING_SESSION_UPDATED,
-    SET_LOCAL_RECORDING_RUNNING,
     SET_MEETING_HIGHLIGHT_BUTTON_STATE,
     SET_PENDING_RECORDING_NOTIFICATION_UID,
     SET_SELECTED_RECORDING_SERVICE,
@@ -254,18 +253,11 @@ export function showStoppedRecordingNotification(
  * the audio cue.
  * @returns {Function}
  */
-export interface INudge {
-    actionNameKey: string;
-    descriptionText: string;
-    handler: () => void;
-}
-
 export function showStartedRecordingNotification(
         mode: string,
         initiator: { getId: Function; } | string,
         sessionId: string,
-        willTranscribe?: boolean,
-        nudge?: INudge) {
+        willTranscribe?: boolean) {
     return async (dispatch: IStore['dispatch'], getState: IStore['getState']) => {
         const state = getState();
         const initiatorId = getResourceId(initiator);
@@ -320,17 +312,6 @@ export function showStartedRecordingNotification(
                     descriptionArguments: { name: participantName },
                     titleKey: 'dialog.recording'
                 };
-            }
-
-            // Merge nudge action when only one service started.
-            if (nudge) {
-                notifyProps.dialogProps = {
-                    ...notifyProps.dialogProps,
-                    description: nudge.descriptionText,
-                    customActionNameKey: [ nudge.actionNameKey ],
-                    customActionHandler: [ nudge.handler ]
-                };
-                notifyProps.type = NOTIFICATION_TIMEOUT_TYPE.LONG;
             }
 
             // fetch the recording link from the server for recording initiators in jaas meetings
@@ -590,19 +571,5 @@ export function setStopRecordingIntent(intent: IStopRecordingIntent | null) {
     return {
         type: SET_STOP_RECORDING_INTENT,
         intent
-    };
-}
-
-/**
- * Tracks whether a local recording is active in Redux state so that selectors
- * can react to it without polling the LocalRecordingManager singleton directly.
- *
- * @param {boolean} running - Whether local recording is now running.
- * @returns {Object}
- */
-export function setLocalRecordingRunning(running: boolean) {
-    return {
-        type: SET_LOCAL_RECORDING_RUNNING,
-        running
     };
 }

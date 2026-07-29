@@ -44,25 +44,20 @@ function ReactionEmoji({ reaction, uid, index }: IProps) {
 
 
     useEffect(() => {
-        const animation = Animated.timing(
+        setTimeout(() => dispatch(removeReaction(uid)), 5000);
+    }, []);
+
+    useEffect(() => {
+        Animated.timing(
             animationVal,
             {
                 toValue: 1,
                 duration: 5000,
                 useNativeDriver: true
             }
-        );
-
-        // Remove only after the animation finishes, so unmount does not race it.
-        animation.start(({ finished }) => finished && dispatch(removeReaction(uid)));
-
-        return () => animation.stop();
+        ).start();
     }, [ animationVal ]);
 
-
-    if (!(reaction in REACTIONS)) {
-        return null;
-    }
 
     return (
         <Animated.Text

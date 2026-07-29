@@ -16,7 +16,7 @@ import {
     isHighlightMeetingMomentDisabled
 } from '../../functions';
 
-import { RecordingTranscriptionDialog } from './index';
+import { StartRecordingDialog } from './index';
 
 export interface IProps extends WithTranslation {
 
@@ -82,7 +82,7 @@ export default class AbstractHighlightButton<P extends IProps, S={}> extends Com
                     const dialogShown = dispatch(maybeShowPremiumFeatureDialog(MEET_FEATURES.RECORDING));
 
                     if (!dialogShown) {
-                        dispatch(openDialog('RecordingTranscriptionDialog', RecordingTranscriptionDialog));
+                        dispatch(openDialog('StartRecordingDialog', StartRecordingDialog));
                     }
                 } ],
                 appearance: NOTIFICATION_TYPE.NORMAL

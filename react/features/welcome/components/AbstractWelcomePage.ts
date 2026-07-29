@@ -162,7 +162,8 @@ export class AbstractWelcomePage<P extends IProps> extends Component<P, IState> 
         const roomPlaceholder = this.state.roomPlaceholder + word.substr(0, 1);
 
         if (word.length > 1) {
-            animateTimeoutId = window.setTimeout(
+            animateTimeoutId
+                = window.setTimeout(
                     () => {
                         this._animateRoomNameChanging(
                             word.substring(1, word.length));
@@ -237,8 +238,6 @@ export class AbstractWelcomePage<P extends IProps> extends Component<P, IState> 
             room: value,
             insecureRoomName: Boolean(this.props._enableInsecureRoomNameWarning && value && isInsecureRoomName(value))
         });
-
-        if (!value) this._updateRoomName();
     }
 
     /**
@@ -267,17 +266,13 @@ export class AbstractWelcomePage<P extends IProps> extends Component<P, IState> 
         const updateTimeoutId = window.setTimeout(this._updateRoomName, 10000);
 
         this._clearTimeouts();
-
         this.setState(
             {
                 generatedRoomName,
                 roomPlaceholder,
                 updateTimeoutId
             },
-            () => {
-                if (this.state.room) this._clearTimeouts();
-                else this._animateRoomNameChanging(generatedRoomName);
-            });
+            () => this._animateRoomNameChanging(generatedRoomName));
     }
 }
 

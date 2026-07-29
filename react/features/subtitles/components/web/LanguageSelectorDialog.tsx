@@ -2,10 +2,8 @@ import i18next from 'i18next';
 import React, { useCallback } from 'react';
 import { makeStyles } from 'tss-react/mui';
 
-import { openDialog } from '../../../base/dialog/actions';
 import { translate, translateToHTML } from '../../../base/i18n/functions';
 import Dialog from '../../../base/ui/components/web/Dialog';
-import { RecordingTranscriptionDialog } from '../../../recording/components/Recording';
 import { openSettingsDialog } from '../../../settings/actions.web';
 import { SETTINGS_TABS } from '../../../settings/constants';
 import { toggleLanguageSelectorDialog } from '../../actions.web';
@@ -37,20 +35,14 @@ const useStyles = makeStyles()(theme => {
 
 
 const LanguageSelectorDialog = (props: IAbstractLanguageSelectorDialogProps) => {
-    const { asyncTranscription, dispatch, language, listItems, onLanguageSelected, subtitles, t } = props;
+    const { dispatch, language, listItems, onLanguageSelected, subtitles, t } = props;
 
     const { classes: styles } = useStyles();
 
     const onSelected = useCallback((e: string) => {
-        if (asyncTranscription) {
-            dispatch(openDialog('RecordingTranscriptionDialog', RecordingTranscriptionDialog, {
-                recordAudioAndVideo: false
-            }));
-        } else {
-            onLanguageSelected(e);
-        }
+        onLanguageSelected(e);
         dispatch(toggleLanguageSelectorDialog());
-    }, [ asyncTranscription, language ]);
+    }, [ language ]);
 
     const onSourceLanguageClick = useCallback(() => {
         dispatch(openSettingsDialog(SETTINGS_TABS.MORE, false));

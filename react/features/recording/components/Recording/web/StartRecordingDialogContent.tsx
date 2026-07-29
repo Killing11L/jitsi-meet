@@ -31,111 +31,34 @@ const EMPTY_FUNCTION = () => {
  */
 class StartRecordingDialogContent extends AbstractStartRecordingDialogContent {
     /**
-     * Renders the two service toggles (recording + transcription) directly,
-     * without the collapsible wrapper — used in manage mode when a session
-     * is already active.
+     * Renders the component.
      *
+     * @protected
      * @returns {React$Component}
      */
-    _renderSessionToggles() {
-        const {
-            _localRecordingRunning,
-            _renderRecording,
-            shouldRecordAudioAndVideo,
-            shouldRecordTranscription,
-            t
-        } = this.props;
-
-        // A participant who started a local recording must always be able to stop it,
-        // even without the JWT recording feature that _renderRecording reflects.
-        const renderRecordingToggle = _renderRecording || _localRecordingRunning;
-
-        return (
-            <>
-                { renderRecordingToggle && (
-                    <div className = 'recording-header space-top'>
-                        <label
-                            className = 'recording-title'
-                            htmlFor = 'recording-switch-audio-video'>
-                            { t('recording.recordAudioAndVideo') }
-                        </label>
-                        <Switch
-                            checked = { shouldRecordAudioAndVideo }
-                            className = 'recording-switch'
-                            id = 'recording-switch-audio-video'
-                            onChange = { this._onRecordAudioAndVideoSwitchChange } />
-                    </div>
-                ) }
-                { this._canStartTranscribing() && (
-                    <div className = 'recording-header space-top'>
-                        <label
-                            className = 'recording-title'
-                            htmlFor = 'recording-switch-transcription'>
-                            { t('recording.recordTranscription') }
-                        </label>
-                        <Switch
-                            checked = { shouldRecordTranscription }
-                            className = 'recording-switch'
-                            id = 'recording-switch-transcription'
-                            onChange = { this._onTranscriptionSwitchChange } />
-                    </div>
-                ) }
-                { !_renderRecording && this._renderLocalRecordingContent() }
-            </>
-        );
-    }
-
     override render() {
         const {
             _canStartTranscribing,
+            _localRecordingAvailable,
             _renderRecording,
-            _transcriptionRunning,
-            fileRecordingsServiceEnabled,
-            integrationsEnabled,
-            recordingRunning
+            integrationsEnabled
         } = this.props;
-
-        if (recordingRunning) {
-            return (
-                <Container className = 'recording-dialog'>
-                    { this._renderSessionToggles() }
-                </Container>
-            );
-        }
-
-        const isTranscriptionOnlySession = Boolean(_transcriptionRunning) && !recordingRunning;
-
-        if (isTranscriptionOnlySession) {
-            // Transcription-only session: show the share-link toggle plus the per-capability service
-            // toggles (recording, transcription, local recording) so the participant can act on
-            // whatever they are allowed to control.
-            return (
-                <Container className = 'recording-dialog'>
-                    { this._renderFileSharingContent() }
-                    { this._renderSessionToggles() }
-                </Container>
-            );
-        }
-
-        // Cloud recording is only usable when a service (file recording or integration) is available;
-        // the JWT recording feature alone doesn't imply one. Transcription nests under the cloud
-        // options when it's supported, otherwise it shows standalone.
-        const supportsCloudRecording = _renderRecording && (fileRecordingsServiceEnabled || integrationsEnabled);
-        const showTranscription = _canStartTranscribing && !supportsCloudRecording;
+        const hasRecordingService = _renderRecording || _localRecordingAvailable || integrationsEnabled;
+        const transcriptionOnly = !hasRecordingService && _canStartTranscribing;
 
         return (
             <Container className = 'recording-dialog'>
-                { supportsCloudRecording && (
+                { _renderRecording && (
                     <>
                         { this._renderNoIntegrationsContent() }
                         { this._renderFileSharingContent() }
-                        { this._renderAdvancedOptions() }
                         { this._renderUploadToTheCloudInfo() }
                         { this._renderIntegrationsContent() }
                     </>
                 )}
-                { showTranscription && this._renderTranscriptionOnly() }
                 { this._renderLocalRecordingContent() }
+                { transcriptionOnly && this._renderTranscriptionOnly() }
+                { hasRecordingService && <> { this._renderAdvancedOptions() } </> }
             </Container>
         );
     }
@@ -150,9 +73,9 @@ class StartRecordingDialogContent extends AbstractStartRecordingDialogContent {
         const { shouldRecordTranscription, t } = this.props;
 
         return (
-            <div className = 'recording-header space-top'>
+            <div className = 'recording-header'>
                 <label
-                    className = 'recording-title'
+                    className = 'recording-title-no-space'
                     htmlFor = 'recording-switch-transcription'>
                     { t('recording.recordTranscription') }
                 </label>
@@ -171,15 +94,12 @@ class StartRecordingDialogContent extends AbstractStartRecordingDialogContent {
      * @returns {React$Component}
      */
     _renderAdvancedOptions() {
-        // Recording/transcription permissions needed.
-        if (!this.props._canManageRecordingOrTranscription) {
-            return null;
-        }
-        if (!this._canStartTranscribing() && !this.props.servicesRunning) {
+        if (!this._canStartTranscribing()) {
             return null;
         }
         const { selectedRecordingService } = this.props;
         const validService = selectedRecordingService === RECORDING_TYPES.JITSI_REC_SERVICE
+            || selectedRecordingService === RECORDING_TYPES.LOCAL
             || !selectedRecordingService;
 
         if (!validService) {
@@ -191,8 +111,9 @@ class StartRecordingDialogContent extends AbstractStartRecordingDialogContent {
 
         return (
             <>
+                <div className = 'recording-header-line' />
                 <div
-                    className = 'recording-header space-top'
+                    className = 'recording-header'
                     onClick = { this._onToggleShowOptions }>
                     <label className = 'recording-title-no-space'>
                         {t('recording.showAdvancedOptions')}
@@ -254,8 +175,6 @@ class StartRecordingDialogContent extends AbstractStartRecordingDialogContent {
             isValidating,
             isVpaas,
             selectedRecordingService,
-            shouldRecordAudioAndVideo,
-            shouldRecordTranscription,
             t
         } = this.props;
 
@@ -263,10 +182,9 @@ class StartRecordingDialogContent extends AbstractStartRecordingDialogContent {
             = integrationsEnabled || _localRecordingAvailable
                 ? (
                     <Switch
-                        checked = { selectedRecordingService === RECORDING_TYPES.JITSI_REC_SERVICE
-                            && (shouldRecordAudioAndVideo || shouldRecordTranscription) }
+                        checked = { selectedRecordingService === RECORDING_TYPES.JITSI_REC_SERVICE }
                         className = 'recording-switch'
-                        disabled = { isValidating }
+                        disabled = { isValidating || !this.props.shouldRecordAudioAndVideo }
                         id = 'recording-switch-jitsi'
                         onChange = { this._onRecordingServiceSwitchChange } />
                 ) : null;
@@ -482,7 +400,7 @@ class StartRecordingDialogContent extends AbstractStartRecordingDialogContent {
                     checked = { selectedRecordingService
                         === RECORDING_TYPES.DROPBOX }
                     className = 'recording-switch'
-                    disabled = { isValidating }
+                    disabled = { isValidating || !this.props.shouldRecordAudioAndVideo }
                     id = 'recording-switch-integration'
                     onChange = { this._onDropboxSwitchChange } />
             );
@@ -560,7 +478,7 @@ class StartRecordingDialogContent extends AbstractStartRecordingDialogContent {
                             checked = { selectedRecordingService
                                 === RECORDING_TYPES.LOCAL }
                             className = 'recording-switch'
-                            disabled = { isValidating }
+                            disabled = { isValidating || !this.props.shouldRecordAudioAndVideo }
                             id = 'recording-switch-local'
                             onChange = { this._onLocalRecordingSwitchChange } />
                     </Container>
@@ -584,7 +502,7 @@ class StartRecordingDialogContent extends AbstractStartRecordingDialogContent {
                                     <Switch
                                         checked = { Boolean(localRecordingOnlySelf) }
                                         className = 'recording-switch'
-                                        disabled = { isValidating }
+                                        disabled = { isValidating || !this.props.shouldRecordAudioAndVideo }
                                         id = 'recording-switch-myself'
                                         onChange = { onLocalRecordingSelfChange ?? EMPTY_FUNCTION } />
                                 </Container>

@@ -209,14 +209,6 @@ export function submitModeratorTab(newState: any) {
                 groupChatRestricted: newState.chatWithPermissionsEnabled
             });
         }
-
-        if (newState.audioTranslationEnabled !== currentState.audioTranslationEnabled) {
-            const { conference } = getState()['features/base/conference'];
-
-            conference?.getMetadataHandler().setMetadata('audioTranslation', {
-                enabled: newState.audioTranslationEnabled
-            });
-        }
     };
 }
 

@@ -1,6 +1,6 @@
 import { Types } from '@amplitude/analytics-react-native';
 import DefaultPreference from 'react-native-default-preference';
-import { getUniqueId } from 'react-native-device-info';
+import DeviceInfo from 'react-native-device-info';
 
 import logger from '../../logger';
 
@@ -19,7 +19,7 @@ export async function fixDeviceID(amplitude: Types.ReactNativeClient) {
     if (current) {
         amplitude.setDeviceId(current);
     } else {
-        const uid = await getUniqueId();
+        const uid = await DeviceInfo.getUniqueId();
 
         if (!uid) {
             logger.warn('Device ID is not set!');

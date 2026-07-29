@@ -18,7 +18,18 @@ import { readyToClose } from './actions';
  * @returns {void}
  */
 export function sendEvent(store: Object, name: string, data: Object) {
-    NativeModules.ExternalAPI.sendEvent(name, data);
+    // ExternalAPI 可能未注册(如鸿蒙纯 JS 集成模式,事件走 rnSdkHandlers 回退中间件,
+    // 不依赖原生 ExternalAPI 模块)。这里判空避免 subtitles 等独立调用点
+    // (notifyTranscriptionChunkReceived) 在 ExternalAPI===null 时抛
+    // "Cannot read property 'sendEvent' of null"。主 external-api 中间件自身已有
+    // externalAPIEnabled 守卫,不会走到这里,此守卫仅兜底其余调用点。
+    const { ExternalAPI } = NativeModules;
+
+    if (!ExternalAPI) {
+        return;
+    }
+
+    ExternalAPI.sendEvent(name, data);
 }
 
 /**

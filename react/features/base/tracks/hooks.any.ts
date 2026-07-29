@@ -14,11 +14,10 @@ import { ITrack } from './types';
  */
 export function useTrackStreamingStatus(track: ITrack | undefined) {
     const dispatch = useDispatch();
-    const jitsiTrack = track?.jitsiTrack;
-    const sourceName = jitsiTrack?.getSourceName();
+    const sourceName = track?.jitsiTrack?.getSourceName();
 
-    const handleStreamingStatusChanged = (changedTrack: any, streamingStatus: string) => {
-        dispatch(trackStreamingStatusChanged(changedTrack, streamingStatus));
+    const handleStreamingStatusChanged = (jitsiTrack: any, streamingStatus: string) => {
+        dispatch(trackStreamingStatusChanged(jitsiTrack, streamingStatus));
     };
 
     useEffect(() => {
@@ -33,11 +32,5 @@ export function useTrackStreamingStatus(track: ITrack | undefined) {
             track.jitsiTrack.off(JitsiTrackEvents.TRACK_STREAMING_STATUS_CHANGED, handleStreamingStatusChanged);
             dispatch(trackStreamingStatusChanged(track.jitsiTrack, track.jitsiTrack.getTrackStreamingStatus?.()));
         };
-
-        // The dependency must be the track OBJECT, not its source name: on a P2P<->JVB switch the remote track is
-        // replaced by a new JitsiRemoteTrack with the SAME source name. Keying on the source name leaves the
-        // listener on the old (removed) track and nobody subscribed to the new one, so once its streaming status
-        // tracker is disposed the status is stuck as null in redux and the tile falls back to the avatar while
-        // video is in fact flowing.
-    }, [ jitsiTrack, sourceName ]);
+    }, [ sourceName ]);
 }

@@ -11,6 +11,7 @@ import { isEmbedded } from '../base/util/embedUtils';
 
 import { reloadNow } from './actions';
 import { _getRouteToRender } from './getRouteToRender';
+import logger from './logger';
 import { IStore } from './types';
 
 MiddlewareRegistry.register(store => next => action => {
@@ -150,11 +151,21 @@ function _navigate({ dispatch, getState }: IStore) {
     const state = getState();
     const { app } = state['features/base/app'];
 
-    _getRouteToRender(state).then((route: Object) => {
-        dispatch(appWillNavigate(app, route));
+    if (!app?._navigate) {
+        logger.warn('Skipping navigation: app is not mounted');
 
-        return app._navigate(route);
-    });
+        return;
+    }
+
+    _getRouteToRender(state)
+        .then((route: Object) => {
+            dispatch(appWillNavigate(app, route));
+
+            return app._navigate(route);
+        })
+        .catch(error => {
+            logger.error('Navigation failed:', error);
+        });
 }
 
 /**

@@ -108,7 +108,7 @@ class LargeVideo extends PureComponent<IProps, IState> {
 
         if (size < AVATAR_SIZE * 1.5) {
             return {
-                avatarSize: Math.max(size - 15, 0), // Leave some margin.
+                avatarSize: size - 15, // Leave some margin.
                 useConnectivityInfoLabel: false
             };
         }

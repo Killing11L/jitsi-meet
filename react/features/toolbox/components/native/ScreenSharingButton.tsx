@@ -16,6 +16,9 @@ const ScreenSharingButton = (props: any) => (
         {Platform.OS === 'ios'
             && <ScreenSharingIosButton { ...props } />
         }
+        {Platform.OS === 'harmony'
+            && <ScreenSharingAndroidButton { ...props } />
+        }
     </>
 );
 

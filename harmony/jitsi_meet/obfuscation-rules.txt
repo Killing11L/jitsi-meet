@@ -1,0 +1,3 @@
+# obfuscation-rules.txt
+# 本 HAR 自身的混淆规则。
+-keep

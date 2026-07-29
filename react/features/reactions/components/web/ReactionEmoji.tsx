@@ -75,10 +75,6 @@ class ReactionEmoji extends Component<IProps, IState> {
         const { reaction, uid } = this.props;
         const { index } = this.state;
 
-        if (!(reaction in REACTIONS)) {
-            return null;
-        }
-
         return (
             <div
                 className = { `reaction-emoji reaction-${index}` }
