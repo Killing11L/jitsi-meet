@@ -1,0 +1,28 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "Entry module"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "EntryAbility"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "JitsiExample"
+    },
+    {
+      "name": "reason_internet",
+      "value": "视频会议需要联网连接 Jitsi 服务器"
+    },
+    {
+      "name": "reason_microphone",
+      "value": "语音通话需要使用麦克风"
+    },
+    {
+      "name": "reason_camera",
+      "value": "视频通话需要使用摄像头"
+    }
+  ]
+}

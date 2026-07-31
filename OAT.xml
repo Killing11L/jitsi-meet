@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <oatconfig>
+        <licensefile>LICENSE</licensefile>
+        <policylist>
+            <policy name="projectPolicy" desc="">
+                <policyitem type="license" name="Apache" path=".*" desc="license under the Apache"/>
+            </policy>
+            <policy name="projectPolicy" desc="">
+                <policyitem type="compatibility" name="GPL-2.0+" path=".*" desc="Process that runs independently, invoked by the X process."/>
+                <policyitem type="compatibility" name="Apache-2.0" path=".*" desc="不影响兼容性"/>
+                <policyitem type="compatibility" name="BSDStyleLicense" path=".*" desc="不影响兼容性" />
+                <policyitem type="compatibility" name="Apache" path=".*" desc="不影响兼容性" />
+                <policyitem type="compatibility" name="GPLStyleLicense" path=".*" desc="不影响兼容性" />
+            </policy>
+        </policylist>
+        <filefilterlist>
+            <filefilter name="copyrightPolicyFilter" desc="Filters for compatibility，license header policies">
+                <!-- 上游源库代码（非 example/harmony 适配代码），不修改版权头，以防有修改版权风险 -->
+                <filteritem type="filepath" name="react/.*" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="react-native-sdk/.*" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="modules/.*" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="css/.*" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="lang/.*" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="metadata/.*" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="sounds/.*" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="static/.*" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="resources/.*" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="images/.*" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="fonts/.*" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="patches/.*" desc="上游jitsi-meet补丁文件，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="tests/.*" desc="上游jitsi-meet测试代码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="twa/.*" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="debian/.*" desc="上游jitsi-meet打包脚本，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="doc/.*" desc="上游jitsi-meet文档，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name=".github/.*" desc="上游CI配置，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name=".devcontainer/.*" desc="上游开发容器配置，不修改版权头，以防有修改版权风险"/>
+
+                <!-- 上游源库根目录散落源码/配置文件 -->
+                <filteritem type="filepath" name="app.js" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="conference.js" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="config.js" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="giphy-analytics-stub.js" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="index.android.js" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="index.ios.js" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="interface_config.js" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="pwa-worker.js" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="webpack.config.js" desc="上游jitsi-meet工程配置，不修改版权头"/>
+                <filteritem type="filepath" name="inlang.config.js" desc="上游jitsi-meet工程配置，不修改版权头"/>
+                <filteritem type="filepath" name="globals.d.ts" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="globals.native.d.ts" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="custom.d.ts" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="tsconfig.web.json" desc="上游工程配置，不修改版权头"/>
+                <filteritem type="filepath" name="tsconfig.native.json" desc="上游工程配置，不修改版权头"/>
+                <filteritem type="filepath" name="manifest.json" desc="上游工程配置，不修改版权头"/>
+                <filteritem type="filepath" name="Makefile" desc="上游工程配置，不修改版权头"/>
+                <filteritem type="filepath" name="README.OpenSource" desc="上游开源声明元数据，不修改版权头"/>
+
+                <!-- 工程配置/模板文件，DevEco Studio或构建工具自动生成，不手动修改 -->
+                <filteritem type="filename" name="hvigorfile.ts" desc="hvigor构建脚本，DevEco Studio自动生成，不手动修改"/>
+                <filteritem type="filepath" name="hvigorw" desc="工程模板，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="hvigorw.bat" desc="工程模板，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="hvigor/hvigor-wrapper.js" desc="工程模板，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="hvigor/hvigor-config.json5" desc="工程模板，不修改版权头，以防有修改版权风险"/>
+
+                <!-- 通用工程配置/资源文件，不添加版权头 -->
+                <filteritem type="filename" name="*.json5" desc="hvigor/ohpm配置文件，DevEco Studio自动生成，不手动修改"/>
+                <filteritem type="filename" name="*/*.json5" desc="hvigor/ohpm配置文件，DevEco Studio自动生成，不手动修改"/>
+                <filteritem type="filename" name="*.json" desc="工程/资源配置文件，不添加版权头"/>
+                <filteritem type="filename" name="*.config.js" desc="工程配置文件，不修改版权头"/>
+                <filteritem type="filename" name="*.txt" desc="CMake/混淆/消费规则等配置文件，不添加版权头"/>
+                <filteritem type="filename" name="*.toml" desc="工程配置文件，不添加版权头"/>
+                <filteritem type="filename" name="*.lock" desc="工程依赖锁定文件，不添加版权头"/>
+                <filteritem type="filename" name="*.nvmrc" desc="工程配置文件，不修改版权头"/>
+                <filteritem type="filename" name=".prettierrc.js" desc="工程配置文件，不修改版权头"/>
+                <filteritem type="filename" name=".eslintrc.js" desc="工程配置文件，不修改版权头"/>
+                <filteritem type="filename" name=".eslintignore" desc="工程配置文件，不修改版权头"/>
+                <filteritem type="filename" name=".watchmanconfig" desc="工程配置文件，不修改版权头"/>
+                <filteritem type="filename" name=".npmrc" desc="工程配置文件，不修改版权头"/>
+                <filteritem type="filename" name=".gitignore" desc="工程配置文件，不修改版权头"/>
+                <filteritem type="filename" name=".gitattributes" desc="工程配置文件，不修改版权头"/>
+                <filteritem type="filename" name=".editorconfig" desc="工程配置文件，不修改版权头"/>
+                <filteritem type="filename" name=".luacheckrc" desc="工程配置文件，不修改版权头"/>
+                <filteritem type="filename" name="Gemfile" desc="工程配置文件，不修改版权头"/>
+                <filteritem type="filename" name="Gemfile.lock" desc="工程配置文件，不修改版权头"/>
+                <filteritem type="filename" name="LICENSE" desc="版权文件，不添加版权头"/>
+                <filteritem type="filename" name="*.md" desc="文档文件，不添加版权头"/>
+                <filteritem type="filename" name="*.html" desc="模板文件，不添加版权头"/>
+            </filefilter>
+            <filefilter name="defaultPolicyFilter" desc="Filters for compatibility，license header policies">
+                <!-- 上游源库代码（非 example/harmony 适配代码），不修改版权头，以防有修改版权风险 -->
+                <filteritem type="filepath" name="react/.*" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="react-native-sdk/.*" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="modules/.*" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="css/.*" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="lang/.*" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="metadata/.*" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="sounds/.*" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="static/.*" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="resources/.*" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="images/.*" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="fonts/.*" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="patches/.*" desc="上游jitsi-meet补丁文件，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="tests/.*" desc="上游jitsi-meet测试代码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="twa/.*" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="debian/.*" desc="上游jitsi-meet打包脚本，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="doc/.*" desc="上游jitsi-meet文档，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name=".github/.*" desc="上游CI配置，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name=".devcontainer/.*" desc="上游开发容器配置，不修改版权头，以防有修改版权风险"/>
+
+                <!-- 上游源库根目录散落源码/配置文件 -->
+                <filteritem type="filepath" name="app.js" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="conference.js" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="config.js" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="giphy-analytics-stub.js" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="index.android.js" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="index.ios.js" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="interface_config.js" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="pwa-worker.js" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="webpack.config.js" desc="上游jitsi-meet工程配置，不修改版权头"/>
+                <filteritem type="filepath" name="inlang.config.js" desc="上游jitsi-meet工程配置，不修改版权头"/>
+                <filteritem type="filepath" name="globals.d.ts" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="globals.native.d.ts" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="custom.d.ts" desc="上游jitsi-meet源码，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="tsconfig.web.json" desc="上游工程配置，不修改版权头"/>
+                <filteritem type="filepath" name="tsconfig.native.json" desc="上游工程配置，不修改版权头"/>
+                <filteritem type="filepath" name="manifest.json" desc="上游工程配置，不修改版权头"/>
+                <filteritem type="filepath" name="Makefile" desc="上游工程配置，不修改版权头"/>
+                <filteritem type="filepath" name="README.OpenSource" desc="上游开源声明元数据，不修改版权头"/>
+
+                <!-- 工程配置/模板文件，DevEco Studio或构建工具自动生成，不手动修改 -->
+                <filteritem type="filename" name="hvigorfile.ts" desc="hvigor构建脚本，DevEco Studio自动生成，不手动修改"/>
+                <filteritem type="filepath" name="hvigorw" desc="工程模板，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="hvigorw.bat" desc="工程模板，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="hvigor/hvigor-wrapper.js" desc="工程模板，不修改版权头，以防有修改版权风险"/>
+                <filteritem type="filepath" name="hvigor/hvigor-config.json5" desc="工程模板，不修改版权头，以防有修改版权风险"/>
+
+                <!-- 通用工程配置/资源文件，不添加版权头 -->
+                <filteritem type="filename" name="*.json5" desc="hvigor/ohpm配置文件，DevEco Studio自动生成，不手动修改"/>
+                <filteritem type="filename" name="*/*.json5" desc="hvigor/ohpm配置文件，DevEco Studio自动生成，不手动修改"/>
+                <filteritem type="filename" name="*.json" desc="工程/资源配置文件，不添加版权头"/>
+                <filteritem type="filename" name="*.config.js" desc="工程配置文件，不修改版权头"/>
+                <filteritem type="filename" name="*.txt" desc="CMake/混淆/消费规则等配置文件，不添加版权头"/>
+                <filteritem type="filename" name="*.toml" desc="工程配置文件，不添加版权头"/>
+                <filteritem type="filename" name="*.lock" desc="工程依赖锁定文件，不添加版权头"/>
+                <filteritem type="filename" name="*.nvmrc" desc="工程配置文件，不修改版权头"/>
+                <filteritem type="filename" name=".prettierrc.js" desc="工程配置文件，不修改版权头"/>
+                <filteritem type="filename" name=".eslintrc.js" desc="工程配置文件，不修改版权头"/>
+                <filteritem type="filename" name=".eslintignore" desc="工程配置文件，不修改版权头"/>
+                <filteritem type="filename" name=".watchmanconfig" desc="工程配置文件，不修改版权头"/>
+                <filteritem type="filename" name=".npmrc" desc="工程配置文件，不修改版权头"/>
+                <filteritem type="filename" name=".gitignore" desc="工程配置文件，不修改版权头"/>
+                <filteritem type="filename" name=".gitattributes" desc="工程配置文件，不修改版权头"/>
+                <filteritem type="filename" name=".editorconfig" desc="工程配置文件，不修改版权头"/>
+                <filteritem type="filename" name=".luacheckrc" desc="工程配置文件，不修改版权头"/>
+                <filteritem type="filename" name="Gemfile" desc="工程配置文件，不修改版权头"/>
+                <filteritem type="filename" name="Gemfile.lock" desc="工程配置文件，不修改版权头"/>
+                <filteritem type="filename" name="LICENSE" desc="版权文件，不添加版权头"/>
+                <filteritem type="filename" name="*.md" desc="文档文件，不添加版权头"/>
+                <filteritem type="filename" name="*.html" desc="模板文件，不添加版权头"/>
+            </filefilter>
+
+            <filefilter name="binaryFileTypePolicyFilter" desc="Filters for copyright header policies">
+                <filteritem type="filepath" name="harmony/jitsi_meet.har" desc="项目打包产物，二进制文件，不添加版权头"/>
+                <filteritem type="filename" name="*.har" desc="鸿蒙打包产物，二进制文件，不添加版权头"/>
+                <filteritem type="filename" name="*.png" desc="图片文件，二进制资源，不手动修改"/>
+                <filteritem type="filename" name="*.jpg" desc="图片文件，二进制资源，不手动修改"/>
+                <filteritem type="filename" name="*.ttf" desc="字体文件，二进制资源，不手动修改"/>
+                <filteritem type="filename" name="*.so" desc="依赖库文件，二进制资源，不手动修改"/>
+                <filteritem type="filename" name="*.a" desc="依赖库文件，二进制资源，不手动修改"/>
+                <!-- 上游jitsi-meet自带二进制资源（音频/图片/模型/证书/打包产物），不添加版权头 -->
+                <filteritem type="filename" name="*.mp3" desc="上游jitsi-meet音频资源，二进制文件，不添加版权头"/>
+                <filteritem type="filename" name="*.opus" desc="上游jitsi-meet音频资源，二进制文件，不添加版权头"/>
+                <filteritem type="filename" name="*.wav" desc="上游jitsi-meet音频资源，二进制文件，不添加版权头"/>
+                <filteritem type="filename" name="*.gif" desc="上游jitsi-meet图片资源，二进制文件，不添加版权头"/>
+                <filteritem type="filename" name="*.wasm" desc="上游jitsi-meet WebAssembly模型，二进制文件，不添加版权头"/>
+                <filteritem type="filename" name="*.tflite" desc="上游jitsi-meet TensorFlow Lite模型，二进制文件，不添加版权头"/>
+                <filteritem type="filename" name="*.pem" desc="上游jitsi-meet测试证书，二进制文件，不添加版权头"/>
+                <filteritem type="filename" name="gradle-wrapper.jar" desc="上游Gradle Wrapper依赖包，二进制文件，不添加版权头"/>
+            </filefilter>
+        </filefilterlist>
+    </oatconfig>
+</configuration>

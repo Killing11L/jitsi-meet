@@ -13,8 +13,7 @@ import { getFeatureFlag } from '../../base/flags/functions';
 export function isPipEnabled(state: IReduxState) {
     let enabled = getFeatureFlag(state, PIP_ENABLED);
 
-    // Override flag for Android/HarmonyOS, since it might be unsupported.
-    if ((Platform.OS === 'android' || Platform.OS === 'harmony')
+    if (Platform.OS === 'android'
             && (typeof enabled === 'undefined' || enabled)) {
         enabled = NativeModules.PictureInPicture?.SUPPORTED;
     }

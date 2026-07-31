@@ -62,6 +62,14 @@ function createJitsiMetroConfig(defaultConfig) {
             })
         },
         resolver: {
+            // 开启 package.json exports 字段解析。
+            // jitsi 依赖的 uuid@14、@jitsi/js-utils 等包为纯 ESM/ exports-only
+            // (无 main 字段),需此标志才能正确解析嵌套 node_modules 内的子路径。
+            unstable_enablePackageExports: true,
+            // exports 解析时追加 browser 条件,使 axios 等包命中 browser 入口
+            // (dist/browser/axios.cjs)而非 Node.js 入口(dist/node/axios.cjs)。
+            // 默认条件为 ["require","import","react-native"],不含 browser。
+            unstable_conditionNames: ["require", "import", "react-native", "browser"],
             // svg 不再作为 asset(数字 id),改由 svg-transformer 转成可渲染组件。
             assetExts: assetExts.filter(ext => ext !== 'svg'),
             sourceExts: [ ...sourceExts, 'svg' ]
