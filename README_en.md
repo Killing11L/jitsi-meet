@@ -10,7 +10,7 @@ This third-party library has been migrated to Gitcode and is now available for d
 
 | Library Name | Version (npm) | Release Info | Supported RN Version | Autolink | Compile API Version | Community Baseline Version | Source Code |
 | ------------ | ------------ | ------------------------------ | ------------- | ------------- |------------------------ | ------------- | ------------- |
-| @react-native-ohos/react-native-jitsi | [~ 2.0.11031](http://149.88.69.92:4873/-/web/detail/@react-native-ohos/react-native-jitsi) | [Github Releases](https://github.com/react-native-oh-library/jitsi-meet/releases) | 0.77.* / 0.82.* | Yes | API12+ | 2.0.11031 | [Github](https://github.com/react-native-oh-library/jitsi-meet) |
+| @react-native-ohos/react-native-jitsi | ~ 2.0.11031 (In development) | [Github Releases](https://github.com/react-native-oh-library/jitsi-meet/releases) | 0.77.* / 0.82.* | Yes | API12+ | 2.0.11031 | [Github](https://github.com/react-native-oh-library/jitsi-meet) |
 
 ## Introduction
 

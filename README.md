@@ -10,7 +10,7 @@
 
 | 三方库名称 | 三方库版本（npm地址） | 发布信息 | 支持RN版本 | Autolink | 编译API版本 | 社区基线版本 | 源码地址 |
 | ------------ | ------------ | ------------------------------ | ------------- | ------------- |------------------------ | ------------- | ------------- |
-| @react-native-ohos/react-native-jitsi | [~ 2.0.11031](http://149.88.69.92:4873/-/web/detail/@react-native-ohos/react-native-jitsi) | [Github Releases](https://github.com/react-native-oh-library/jitsi-meet/releases) | 0.77.* / 0.82.* | 是 | API12+ | 2.0.11031 | [Github](https://github.com/react-native-oh-library/jitsi-meet) |
+| @react-native-ohos/react-native-jitsi | ~ 2.0.11031 (开发中) | [Github Releases](https://github.com/react-native-oh-library/jitsi-meet/releases) | 0.77.* / 0.82.* | 是 | API12+ | 2.0.11031 | [Github](https://github.com/react-native-oh-library/jitsi-meet) |
 
 ## 简介
 
