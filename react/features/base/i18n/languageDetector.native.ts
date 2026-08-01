@@ -1,8 +1,36 @@
-import { NativeModules } from 'react-native';
+import { I18nManager, NativeModules, Platform } from 'react-native';
 
 import LANGUAGES_RESOURCES from '../../../../lang/languages.json';
 
 const LANGUAGES = Object.keys(LANGUAGES_RESOURCES);
+
+const DEFAULT_LANGUAGE = 'en';
+
+function getSystemLocale() {
+    if (Platform.OS === 'harmony') {
+        try {
+            const constants = I18nManager.getConstants();
+            const id = constants?.localeIdentifier;
+
+            if (typeof id === 'string' && id.length > 0) {
+                return id;
+            }
+        } catch {
+            // 忽略,走默认语言兜底。
+        }
+
+        return '';
+    }
+
+    const { LocaleDetector } = NativeModules;
+
+    if (LocaleDetector && typeof LocaleDetector.locale === 'string'
+        && LocaleDetector.locale.length > 0) {
+        return LocaleDetector.locale;
+    }
+
+    return '';
+}
 
 /**
  * The singleton language detector for React Native which uses the system-wide
@@ -17,8 +45,13 @@ export default {
     cacheUserLanguage: Function.prototype,
 
     detect() {
-        const { LocaleDetector } = NativeModules;
-        const parts = LocaleDetector.locale.replace(/_/, '-').split('-');
+        const rawLocale = getSystemLocale();
+
+        if (!rawLocale) {
+            return DEFAULT_LANGUAGE;
+        }
+
+        const parts = rawLocale.replace(/_/, '-').split('-');
         const [ lang, regionOrScript, region ] = parts;
         let locale;
 

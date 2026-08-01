@@ -14,7 +14,7 @@
  */
 
 import { audio } from '@kit.AudioKit';
-import { BusinessError } from '@kit.BasicServicesKit';
+import { BusinessError, deviceInfo } from '@kit.BasicServicesKit';
 import hilog from '@ohos.hilog';
 import { UITurboModule, UITurboModuleContext } from '@rnoh/react-native-openharmony';
 import {
@@ -119,13 +119,17 @@ export class AudioModeModule extends UITurboModule {
       this.mode = mode;
       if (mode === AUDIO_MODE_DEFAULT) {
         this.userSelectedDevice = null;
-        this.audioSessionManager?.setAudioSessionScene(
-          audio.AudioSessionScene.AUDIO_SESSION_SCENE_MEDIA
-        );
+        if (deviceInfo.sdkApiVersion >= 20) {
+          this.audioSessionManager?.setAudioSessionScene(
+            audio.AudioSessionScene.AUDIO_SESSION_SCENE_MEDIA
+          );
+        }
       } else {
-        this.audioSessionManager?.setAudioSessionScene(
-          audio.AudioSessionScene.AUDIO_SESSION_SCENE_VOICE_COMMUNICATION
-        );
+        if (deviceInfo.sdkApiVersion >= 20) {
+          this.audioSessionManager?.setAudioSessionScene(
+            audio.AudioSessionScene.AUDIO_SESSION_SCENE_VOICE_COMMUNICATION
+          );
+        }
       }
       this.updateAudioRoute();
       return Promise.resolve();
@@ -233,9 +237,11 @@ export class AudioModeModule extends UITurboModule {
       return;
     }
     try {
-      this.audioSessionManager.setAudioSessionScene(
-        audio.AudioSessionScene.AUDIO_SESSION_SCENE_VOICE_COMMUNICATION
-      );
+      if (deviceInfo.sdkApiVersion >= 20) {
+        this.audioSessionManager.setAudioSessionScene(
+          audio.AudioSessionScene.AUDIO_SESSION_SCENE_VOICE_COMMUNICATION
+        );
+      }
     } catch (e) {
       hilog.warn(AudioModeModule.DOMAIN, AudioModeModule.TAG,
         `setAudioSessionScene failed: ${(e as Error).message}`);
@@ -286,7 +292,7 @@ export class AudioModeModule extends UITurboModule {
       throw new Error(`Unknown audio device: ${target}`);
     }
 
-    if (this.audioSessionManager && typeof this.audioSessionManager.setDefaultOutputDevice === 'function') {
+    if (deviceInfo.sdkApiVersion >= 20 && this.audioSessionManager && typeof this.audioSessionManager.setDefaultOutputDevice === 'function') {
       try {
         await this.ensureVoiceCommunicationSession();
         await this.audioSessionManager.setDefaultOutputDevice(deviceType);
