@@ -1,6 +1,6 @@
 {
   "name": "@react-native-ohos/react-native-jitsi",
-  "version": "2.0.11032-rc.2",
+  "version": "12.1.5-rc.1",
   "description": "HarmonyOS adaptation of jitsi-meet native SDK modules",
   "main": "Index.ets",
   "author": "",
