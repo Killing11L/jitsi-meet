@@ -401,52 +401,38 @@ Methods exposed by `JitsiMeeting` via `ref` (`JitsiRefProps`):
 | setAudioOnly | `(value: boolean) => void` | all | yes | Toggle audio-only mode |
 | setAudioMuted | `(muted: boolean) => void` | all | yes | Mute / unmute local audio |
 | setVideoMuted | `(muted: boolean) => void` | all | yes | Turn off / on local video |
-| getRoomsInfo | `() => IRoomsInfo` | all | yes | Get all breakout rooms and participant info (including the main room and breakout rooms) |
+| getRoomsInfo | `() => IRoomsInfo` | all | yes | Get all breakout rooms and participant info (including the main conference room and breakout rooms) |
 
-### Type Definitions
+### IUserInfo
 
-The interfaces are nested: `getRoomsInfo()` returns `IRoomsInfo`, whose `rooms` is `IRoomInfo[]`, and each `IRoomInfo` contains `IRoomInfoParticipant[]`. The hierarchy is:
+| Name | Type | Platform | HarmonyOS Support | Description |
+| - | - | - | - | - |
+| avatarURL | string | all | yes | Local user avatar URL |
+| displayName | string | all | yes | Local user display name |
+| email | string | all | yes | Local user email |
 
-```
-IRoomsInfo
- └─ rooms: IRoomInfo[]
-     ├─ id / isMainRoom / jid
-     └─ participants: IRoomInfoParticipant[]
-         ├─ avatarUrl / displayName / id / jid / role
-         └─ userContext?
-```
+### IRoomsInfo
+| Name | Type | Platform | HarmonyOS Support | Description |
+| - | - | - | - | - |
+| rooms | [IRoomInfo[]](#iroominfo) | all | yes | Room info array (main conference room and each breakout room) |
 
-```typescript
-/** Local user info */
-interface IUserInfo {
-  avatarURL?: string;   // Local user avatar URL
-  displayName?: string; // Local user display name
-  email?: string;       // Local user email
-}
+### IRoomInfo
+| Name | Type | Platform | HarmonyOS Support | Description |
+| - | - | - | - | - |
+| id | string | all | yes | Room ID |
+| isMainRoom | boolean | all | yes | Whether it is the main conference room |
+| jid | string | all | yes | Room JID |
+| participants | [IRoomInfoParticipant[]](#iroominfoparticipant) | all | yes | Participant list in this room |
 
-/** A single participant in a room */
-interface IRoomInfoParticipant {
-  avatarUrl: string;       // Participant avatar URL
-  displayName: string;    // Participant display name
-  id: string;              // Participant ID
-  jid: string;             // Participant JID
-  role: string;            // Participant role (e.g. moderator / participant)
-  userContext?: object;    // User context (with optional id / name)
-}
-
-/** A single room (main conference or breakout room) */
-interface IRoomInfo {
-  id: string;                       // Room ID
-  isMainRoom: boolean;              // Whether it is the main conference room
-  jid: string;                      // Room JID
-  participants: IRoomInfoParticipant[]; // Participant list in this room
-}
-
-/** All breakout rooms and participant info (return value of getRoomsInfo()) */
-interface IRoomsInfo {
-  rooms: IRoomInfo[]; // Room info array
-}
-```
+### IRoomInfoParticipant
+| Name | Type | Platform | HarmonyOS Support | Description |
+| - | - | - | - | - |
+| avatarUrl | string | all | yes | Participant avatar URL |
+| displayName | string | all | yes | Participant display name |
+| id | string | all | yes | Participant ID |
+| jid | string | all | yes | Participant JID |
+| role | string | all | yes | Participant role |
+| userContext | object | all | yes | User context |
 
 ### IEventListeners
 
@@ -504,7 +490,6 @@ The keys of the `flags` Prop are the flag string values below.
 
 | Flag | Default | Description |
 | ---- | ------- | ----------- |
-| calendar.enabled | true | Whether to enable calendar integration |
 | car-mode.enabled | true | Whether to enable car mode |
 | notifications.enabled | true | Whether to enable notifications |
 | prejoinpage.enabled | true | Whether to enable the pre-join page |

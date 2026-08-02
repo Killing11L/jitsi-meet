@@ -26,19 +26,10 @@
  * 与宿主 v7 隔离 —— 故接入方【无需】为 navigation 配置 metro resolveRequest。
  */
 
-/**
- * 生成 jitsi 所需的 Metro 配置片段(仅 svg-transformer 相关)。
- *
- * @param {object} defaultConfig 接入方 getDefaultConfig(__dirname) 的返回值,
- *   用于继承该工程既有的 assetExts / sourceExts(避免覆盖宿主其它扩展名配置)。
- * @returns {object} 配置片段对象,传入 mergeConfig(...) 合并即可。
- */
 function createJitsiMetroConfig(defaultConfig) {
     let babelTransformerPath;
 
     try {
-        // 运行于宿主 Metro 进程;Node 从本文件所在包目录向上查找 node_modules,
-        // 命中 npm 为本库(或宿主顶层 hoist)安装的 react-native-svg-transformer。
         babelTransformerPath = require.resolve('react-native-svg-transformer');
     } catch {
         throw new Error(
@@ -62,15 +53,8 @@ function createJitsiMetroConfig(defaultConfig) {
             })
         },
         resolver: {
-            // 开启 package.json exports 字段解析。
-            // jitsi 依赖的 uuid@14、@jitsi/js-utils 等包为纯 ESM/ exports-only
-            // (无 main 字段),需此标志才能正确解析嵌套 node_modules 内的子路径。
             unstable_enablePackageExports: true,
-            // exports 解析时追加 browser 条件,使 axios 等包命中 browser 入口
-            // (dist/browser/axios.cjs)而非 Node.js 入口(dist/node/axios.cjs)。
-            // 默认条件为 ["require","import","react-native"],不含 browser。
-            unstable_conditionNames: ["require", "import", "react-native", "browser"],
-            // svg 不再作为 asset(数字 id),改由 svg-transformer 转成可渲染组件。
+            unstable_conditionNames: ["require", "react-native", "browser"],
             assetExts: assetExts.filter(ext => ext !== 'svg'),
             sourceExts: [ ...sourceExts, 'svg' ]
         }
