@@ -10,7 +10,7 @@
 
 | 三方库名称 | 三方库版本（npm地址） | 发布信息 | 支持RN版本 | Autolink | 编译API版本 | 社区基线版本 | 源码地址 |
 | ------------ | ------------ | ------------------------------ | ------------- | ------------- |------------------------ | ------------- | ------------- |
-| @react-native-ohos/react-native-jitsi | ~ 2.0.11031 (开发中) | [Github Releases](https://github.com/react-native-oh-library/jitsi-meet/releases) | 0.77.* / 0.82.* | 是 | API12+ | 2.0.11031 | [Github](https://github.com/react-native-oh-library/jitsi-meet) |
+| @react-native-ohos/react-native-jitsi | ~ 12.1.5 (开发中) | [Github Releases](https://github.com/react-native-oh-library/jitsi-meet/releases) | 0.77.* / 0.82.* | 是 | API12+ | 12.1.4 | [Github](https://github.com/react-native-oh-library/jitsi-meet) |
 
 ## 简介
 
@@ -40,7 +40,7 @@ yarn add @react-native-ohos/react-native-jitsi
 
 | | 是否支持autolink | RN框架版本 |
 | - | - | - |
-| ~2.0.11031 | 是 | 0.77 / 0.82 |
+| ~12.1.5 | 是 | 0.77 / 0.82 |
 
 使用AutoLink的工程需要根据该文档配置，Autolink框架指导文档：https://gitcode.com/CPF-RN/ohos_react_native/blob/master/docs/zh-cn/Autolinking.md
 

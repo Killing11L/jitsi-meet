@@ -3,7 +3,7 @@
         "Name": "react-native-jitsi",
         "License": "Apache License",
         "License File": "https://github.com/jitsi/jitsi-meet/blob/stable/jitsi-meet_11031/LICENSE",
-        "Version Number": "2.0.11031",
+        "Version Number": "12.1.4",
 		"Owner" : "xiafeng@huawei.com",
         "Upstream URL": "https://github.com/jitsi/jitsi-meet/tree/stable/jitsi-meet_11031",
         "Description": "The WebRTC module"

@@ -10,7 +10,7 @@ This third-party library has been migrated to Gitcode and is now available for d
 
 | Library Name | Version (npm) | Release Info | Supported RN Version | Autolink | Compile API Version | Community Baseline Version | Source Code |
 | ------------ | ------------ | ------------------------------ | ------------- | ------------- |------------------------ | ------------- | ------------- |
-| @react-native-ohos/react-native-jitsi | ~ 2.0.11031 (In development) | [Github Releases](https://github.com/react-native-oh-library/jitsi-meet/releases) | 0.77.* / 0.82.* | Yes | API12+ | 2.0.11031 | [Github](https://github.com/react-native-oh-library/jitsi-meet) |
+| @react-native-ohos/react-native-jitsi | ~ 12.1.5 (In development) | [Github Releases](https://github.com/react-native-oh-library/jitsi-meet/releases) | 0.77.* / 0.82.* | Yes | API12+ | 12.1.4 | [Github](https://github.com/react-native-oh-library/jitsi-meet) |
 
 ## Introduction
 
@@ -40,7 +40,7 @@ yarn add @react-native-ohos/react-native-jitsi
 
 | | Supported Autolink | Supported RN Version |
 | - | - | - |
-| ~2.0.11031 | Yes | 0.77 / 0.82 |
+| ~12.1.5 | Yes | 0.77 / 0.82 |
 
 Projects using AutoLink need to be configured according to this document, AutoLink framework guide: https://gitcode.com/CPF-RN/ohos_react_native/blob/master/docs/zh-cn/Autolinking.md
 

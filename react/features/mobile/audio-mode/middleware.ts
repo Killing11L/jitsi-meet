@@ -22,6 +22,28 @@ import logger from './logger';
 const { AudioMode } = NativeModules;
 const AudioModeEmitter = new NativeEventEmitter(AudioMode);
 
+const AudioModeConstants: {
+    DEVICE_CHANGE_EVENT?: string;
+    AUDIO_CALL?: number;
+    VIDEO_CALL?: number;
+    DEFAULT?: number;
+} = {};
+
+function ensureAudioModeConstants() {
+    if (AudioModeConstants.DEVICE_CHANGE_EVENT !== undefined) {
+        return;
+    }
+    try {
+        const c = AudioMode?.getConstants?.() ?? {};
+        AudioModeConstants.DEVICE_CHANGE_EVENT = c.DEVICE_CHANGE_EVENT;
+        AudioModeConstants.AUDIO_CALL = c.AUDIO_CALL;
+        AudioModeConstants.VIDEO_CALL = c.VIDEO_CALL;
+        AudioModeConstants.DEFAULT = c.DEFAULT;
+    } catch (e) {
+        // ignore
+    }
+}
+
 /**
  * Middleware that captures conference actions and sets the correct audio mode
  * based on the type of conference. Audio-only conferences don't use the speaker
@@ -96,8 +118,9 @@ MiddlewareRegistry.register(store => next => action => {
  * @returns {void}
  */
 function _appWillMount(store: IStore) {
+    ensureAudioModeConstants();
     const subscriptions = [
-        AudioModeEmitter.addListener(AudioMode.DEVICE_CHANGE_EVENT, _onDevicesUpdate, store)
+        AudioModeEmitter.addListener(AudioModeConstants.DEVICE_CHANGE_EVENT, _onDevicesUpdate, store)
     ];
 
     store.dispatch({
@@ -160,14 +183,15 @@ function _updateAudioMode({ getState }: IStore, next: Function, action: AnyActio
     const state = getState();
     const conference = getCurrentConference(state);
     const { enabled: audioOnly } = state['features/base/audio-only'];
+    ensureAudioModeConstants();
     let mode: string;
 
     if (getFeatureFlag(state, AUDIO_FOCUS_DISABLED, false)) {
         return result;
     } else if (conference) {
-        mode = audioOnly ? AudioMode.AUDIO_CALL : AudioMode.VIDEO_CALL;
+        mode = audioOnly ? AudioModeConstants.AUDIO_CALL : AudioModeConstants.VIDEO_CALL;
     } else {
-        mode = AudioMode.DEFAULT;
+        mode = AudioModeConstants.DEFAULT;
     }
 
     AudioMode.setMode(mode).catch((err: any) => logger.error(`Failed to set audio mode ${String(mode)}: ${err}`));
