@@ -398,56 +398,42 @@ const roomsInfo = jitsiRef.current?.getRoomsInfo();
 
 | Name | Type | Platform | HarmonyOS Support | Description |
 | ---- | ---- | -------- | ------------------ | ----------- |
-| close | `() => void` | all | yes | 关闭并退出会议（dispatch appNavigate(undefined)） |
-| setAudioOnly | `(value: boolean) => void` | all | yes | 切换纯音频模式 |
-| setAudioMuted | `(muted: boolean) => void` | all | yes | 静音/取消静音本地音频 |
-| setVideoMuted | `(muted: boolean) => void` | all | yes | 关闭/开启本地视频 |
-| getRoomsInfo | `() => IRoomsInfo` | all | yes | 获取当前所有分组房间及参与者信息（含主会议与分组讨论房间） |
+| close | () => void | all | yes | 关闭并退出会议（dispatch appNavigate(undefined)） |
+| setAudioOnly | (value: boolean) => void | all | yes | 切换纯音频模式 |
+| setAudioMuted | (muted: boolean) => void | all | yes | 静音/取消静音本地音频 |
+| setVideoMuted | (muted: boolean) => void | all | yes | 关闭/开启本地视频 |
+| getRoomsInfo | () => [IRoomsInfo](#iroomsinfo) | all | yes | 获取当前所有分组房间及参与者信息（含主会议与分组讨论房间） |
 
-### 类型定义
+### IUserInfo
 
-接口间存在层级包含关系：`getRoomsInfo()` 返回 `IRoomsInfo`，其 `rooms` 为 `IRoomInfo[]`，每个 `IRoomInfo` 又包含 `IRoomInfoParticipant[]`。层级关系如下：
+| Name | Type | Platform | HarmonyOS Support | Description |
+| - | - | - | - | - |
+| avatarURL | string | all | yes | 本地用户头像 URL |
+| displayName | string | all | yes | 本地用户显示名称 |
+| email | string | all | yes | 本地用户邮箱 |
 
-```
-IRoomsInfo
- └─ rooms: IRoomInfo[]
-     ├─ id / isMainRoom / jid
-     └─ participants: IRoomInfoParticipant[]
-         ├─ avatarUrl / displayName / id / jid / role
-         └─ userContext?
-```
+### IRoomsInfo
+| Name | Type | Platform | HarmonyOS Support | Description |
+| - | - | - | - | - |
+| rooms | [IRoomInfo[]](#iroominfo) | all | yes | 房间信息数组（主会议与各分组讨论房间） |
 
-```typescript
-/** 本地用户信息 */
-interface IUserInfo {
-  avatarURL?: string;   // 本地用户头像 URL
-  displayName?: string; // 本地用户显示名称
-  email?: string;       // 本地用户邮箱
-}
+### IRoomInfo
+| Name | Type | Platform | HarmonyOS Support | Description |
+| - | - | - | - | - |
+| id | string | all | yes | 房间 ID |
+| isMainRoom | boolean | all | yes | 是否为主会议房间 |
+| jid | string | all | yes | 房间 JID |
+| participants | [IRoomInfoParticipant[]](#iroominfoparticipant) | all | yes | 房间内参与者列表 |
 
-/** 房间内单个参与者信息 */
-interface IRoomInfoParticipant {
-  avatarUrl: string;       // 参与者头像 URL
-  displayName: string;    // 参与者显示名称
-  id: string;              // 参与者 ID
-  jid: string;             // 参与者 JID
-  role: string;            // 参与者角色（如 moderator / participant）
-  userContext?: object;    // 用户上下文（含可选 id / name）
-}
-
-/** 单个房间信息（主会议或分组讨论房间） */
-interface IRoomInfo {
-  id: string;                       // 房间 ID
-  isMainRoom: boolean;              // 是否为主会议房间
-  jid: string;                      // 房间 JID
-  participants: IRoomInfoParticipant[]; // 该房间内参与者列表
-}
-
-/** 所有分组房间及参与者信息（getRoomsInfo() 返回值） */
-interface IRoomsInfo {
-  rooms: IRoomInfo[]; // 房间信息数组
-}
-```
+### IRoomInfoParticipant
+| Name | Type | Platform | HarmonyOS Support | Description |
+| - | - | - | - | - |
+| avatarUrl | string | all | yes | 参与者头像 URL |
+| displayName | string | all | yes | 参与者显示名称 |
+| id | string | all | yes | 参与者 ID |
+| jid | string | all | yes | 参与者 JID |
+| role | string | all | yes | 参与者角色 |
+| userContext | object | all | yes | 用户上下文 |
 
 ### IEventListeners
 
@@ -505,7 +491,6 @@ interface IRoomsInfo {
 
 | Flag | Default | Description |
 | ---- | ------- | ----------- |
-| calendar.enabled | true | 是否启用日历集成 |
 | car-mode.enabled | true | 是否启用驾驶模式 |
 | notifications.enabled | true | 是否启用通知 |
 | prejoinpage.enabled | true | 是否启用加入前页面 |
