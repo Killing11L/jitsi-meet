@@ -184,9 +184,6 @@ const { createHarmonyMetroConfig } = require('@react-native-oh/react-native-harm
 
 const config = {
     resetCache: true,
-+    resolver: {
-+        unstable_enablePackageExports: true,
-+    },
     transformer: {
         getTransformOptions: async () => ({
             transform: {
@@ -205,6 +202,51 @@ module.exports = mergeConfig(
 +  createJitsiMetroConfig(defaultConfig)
 );
 ```
+
+### 6. 依赖库
+
+该库依赖以下库，需要同时在package.json安装，相关鸿蒙库的具体安装步骤可以在[usage-docs](https://gitcode.com/CPF-RN/usage-docs)查找。
+
+```diff
+"dependencies": {
++  "@react-native-ohos/react-native-webrtc": "124.0.8-rc.11",
++  "@react-native-ohos/react-native-gcanvas": "6.0.25-rc.1",
++  "@react-native-ohos/react-native-device-info": "14.1.2-beta.3",
++  "@react-native-ohos/react-native-worklets-core": "1.6.0-rc.1",
++  "@react-native-ohos/react-native-background-timer": "2.6.0-beta.1",
++  "@react-native-ohos/react-native-performance": "5.3.0-beta.1",
++  "@react-native-ohos/react-native-default-preference": "1.6.0-beta.1",
++  "@sayem314/react-native-keep-awake": "npm:@react-native-ohos/react-native-keep-awake@4.2.0-beta.1",
++  "@react-native-ohos/async-storage": "2.3.0-beta.1",
++  "@react-native-community/netinfo": "npm:@react-native-ohos/netinfo@11.5.0-beta.1",
++  "@react-native-ohos/react-native-calendar-events": "2.4.0-rc.1",
++  "@amplitude/analytics-browser": "2.17.12",
++  "@amplitude/analytics-react-native": "1.5.16",
++  "@react-native-ohos/react-native-webview": "13.16.2-rc.5",
++  "@react-native-ohos/react-native-orientation-locker": "1.9.0-beta.2",
++  "@react-native-google-signin/google-signin": "10.1.0",
++  "@react-native-ohos/react-native-sound": "0.13.0-rc.1",
++  "@react-native-ohos/slider": "5.1.2",
++  "@react-native-ohos/react-native-video": "6.14.1",
++  "@react-native-ohos/react-native-get-random-values": "1.13.0-beta.2",
++  "@react-native-ohos/react-native-safe-area-context": "5.6.3",
++  "@react-native-ohos/react-native-svg": "15.13.1-rc.2",
++  "@react-native-ohos/react-native-dialog": "9.3.1-rc.1",
++  "react-native-gesture-handler": "2.25.0",
++  "react-native-svg": "15.15.0",
++  "@react-native-ohos/react-native-screens": "4.9.0-rc.14",
++  "react-native-screens": "4.17.1",
++  "@react-native-ohos/native-stack": "7.4.0-rc.11",
++  "@react-native-ohos/react-native-gesture-handler": "2.23.3"
+}
+
+"overrides": {
+  "@react-native-community/cli": "15.0.1",
++  "use-latest-callback": "0.2.6"
+}
+
+```
+
 
 ### 运行
 
@@ -455,77 +497,81 @@ const roomsInfo = jitsiRef.current?.getRoomsInfo();
 
 ### Feature Flags
 
-`flags` Prop 中的键为下方 flag 字符串值。
+`flags` Prop 中的键为下方 value 列的字符串值，对应的常量名为 Flag 列。
 
 #### 音视频
 
-| Flag | Default | Description |
-| ---- | ------- | ----------- |
-| audio-mute.enabled | true | 是否显示音频静音按钮 |
-| video-mute.enabled | true | 是否显示视频关闭按钮 |
-| audio-only.enabled | true | 溢出菜单"开启剩流模式"按钮是否启用 |
-| audio-device-button.enabled | true | 是否显示音频设备按钮 |
-| toggle-camera-button.enabled | true | 是否启用切换摄像头按钮 |
+| Flag | value | Default | HarmonyOS Support | Description |
+| - | - | - | - | - |
+| AUDIO_MUTE_BUTTON_ENABLED | audio-mute.enabled | true | yes | 是否显示音频静音按钮 |
+| VIDEO_MUTE_BUTTON_ENABLED | video-mute.enabled | true | yes | 是否显示视频关闭按钮 |
+| AUDIO_ONLY_BUTTON_ENABLED | audio-only.enabled | true | yes | 溢出菜单"开启剩流模式"按钮是否启用 |
+| AUDIO_DEVICE_BUTTON_ENABLED | audio-device-button.enabled | true | yes | 是否显示音频设备按钮 |
+| TOGGLE_CAMERA_BUTTON_ENABLED | toggle-camera-button.enabled | true | yes | 是否启用切换摄像头按钮 |
 
 #### 会议功能
 
-| Flag | Default | Description |
-| ---- | ------- | ----------- |
-| breakout-rooms.enabled | true | 溢出菜单"分组讨论"按钮是否启用 |
-| chat.enabled | true | 是否启用聊天功能 |
-| conference-timer.enabled | true | 是否启用会议计时器 |
-| filmstrip.enabled | true | 是否启用胶片条（侧边参与者栏） |
-| invite.enabled | true | 是否启用邀请功能 |
-| kick-out.enabled | true | 是否启用踢出（移除参与者）功能 |
-| meeting-name.enabled | true | 是否显示会议名称 |
-| meeting-password.enabled | true | 是否启用会议密码按钮 |
-| participants.enabled | true | 是否启用参与者面板 |
-| raise-hand.enabled | true | 是否启用举手功能 |
-| reactions.enabled | true | 是否启用表情回应功能 |
-| tile-view.enabled | true | 是否启用平铺视图功能 |
-| toolbox.enabled | true | 是否启用工具箱 |
-| toolbox.alwaysVisible | false | 工具箱是否始终可见 |
-| overflow-menu.enabled | true | 是否显示音频溢出菜单按钮 |
+| Flag | value | Default | HarmonyOS Support | Description |
+| - | - | - | - | - |
+| BREAKOUT_ROOMS_BUTTON_ENABLED | breakout-rooms.enabled | true | yes | 溢出菜单"分组讨论"按钮是否启用 |
+| CHAT_ENABLED | chat.enabled | true | yes | 是否启用聊天功能 |
+| CONFERENCE_TIMER_ENABLED | conference-timer.enabled | true | yes | 是否启用会议计时器 |
+| FILMSTRIP_ENABLED | filmstrip.enabled | true | yes | 是否启用胶片条（侧边参与者栏） |
+| INVITE_ENABLED | invite.enabled | true | yes | 是否启用邀请功能 |
+| KICK_OUT_ENABLED | kick-out.enabled | true | yes | 是否启用踢出（移除参与者）功能 |
+| MEETING_NAME_ENABLED | meeting-name.enabled | true | yes | 是否显示会议名称 |
+| MEETING_PASSWORD_ENABLED | meeting-password.enabled | true | yes | 是否启用会议密码按钮 |
+| PARTICIPANTS_ENABLED | participants.enabled | true | yes | 是否启用参与者面板 |
+| RAISE_HAND_ENABLED | raise-hand.enabled | true | yes | 是否启用举手功能 |
+| REACTIONS_ENABLED | reactions.enabled | true | yes | 是否启用表情回应功能 |
+| TILE_VIEW_ENABLED | tile-view.enabled | true | yes | 是否启用平铺视图功能 |
+| TOOLBOX_ENABLED | toolbox.enabled | true | yes | 是否启用工具箱 |
+| TOOLBOX_ALWAYS_VISIBLE | toolbox.alwaysVisible | false | yes | 工具箱是否始终可见 |
+| OVERFLOW_MENU_ENABLED | overflow-menu.enabled | true | yes | 是否显示音频溢出菜单按钮 |
 
 #### UI / 导航
 
-| Flag | Default | Description |
-| ---- | ------- | ----------- |
-| car-mode.enabled | true | 是否启用驾驶模式 |
-| notifications.enabled | true | 是否启用通知 |
-| prejoinpage.enabled | true | 是否启用加入前页面 |
-| security-options.enabled | true | 是否启用安全选项按钮 |
-| server-url-change.enabled | true | 是否允许更改服务器 URL |
-| settings.enabled | true | 是否启用设置 |
-| welcomepage.enabled | false | 是否启用欢迎页 |
-| speakerstats.enabled | true | 是否启用发言人统计 |
+| Flag | value | Default | HarmonyOS Support | Description |
+| - | - | - | - | - |
+| CAR_MODE_ENABLED | car-mode.enabled | true | yes | 是否启用驾驶模式 |
+| NOTIFICATIONS_ENABLED | notifications.enabled | true | yes | 是否启用通知 |
+| PREJOIN_PAGE_ENABLED | prejoinpage.enabled | true | yes | 是否启用加入前页面 |
+| SECURITY_OPTIONS_ENABLED | security-options.enabled | true | yes | 是否启用安全选项按钮 |
+| SETTINGS_ENABLED | settings.enabled | true | yes | 是否启用设置 |
+| WELCOME_PAGE_ENABLED | welcomepage.enabled | false | yes | 是否启用欢迎页 |
+| SPEAKERSTATS_ENABLED | speakerstats.enabled | true | yes | 是否启用发言人统计 |
 
 #### 平台 / 集成
 
-| Flag | Default | Description |
-| ---- | ------- | ----------- |
-| pip.enabled | auto-detected | 是否启用画中画（PiP） |
-| android.screensharing.enabled | true | 是否启用屏幕共享 |
-| replace.participant | false | 用户加入会议时是否使用 replaceParticipant 功能 |
+| Flag | value | Default | HarmonyOS Support | Description |
+| - | - | - | - | - |
+| PIP_ENABLED | pip.enabled | true | yes | 是否启用画中画（PiP） |
+| ANDROID_SCREENSHARING_ENABLED | android.screensharing.enabled | true | yes | 是否启用屏幕共享 |
 
 ### Config
 
 `config` Prop 的键。
 
-| Key | Type | Default | Description |
-| --- | ---- | ------- | ----------- |
-| startWithAudioMuted | boolean | false | 入会即静音本地麦克风 |
-| startWithVideoMuted | boolean | false | 入会即关闭摄像头 |
-| startAudioOnly | boolean | false | 纯音频模式，不创建视频轨道 |
-| startSilent | boolean | false | 静默入场 |
-| cameraFacingMode | string | user | 默认摄像头朝向（`user` / `environment`） |
-| disableSelfView | boolean | false | 隐藏本地自视图 |
-| hideConferenceTimer | boolean | false | 隐藏会议计时器 |
-| hideConferenceSubject | boolean | false | 隐藏会议主题 / 房间名标题 |
-| subject | string | — | 覆盖会议主题文字 |
-| requireDisplayName | boolean | — | 强制要求填显示名才能入会 |
+| Key | Type | Default | HarmonyOS Support | Description |
+| - | - | - | - | - |
+| startWithAudioMuted | boolean | false | yes | 入会即静音本地麦克风 |
+| startWithVideoMuted | boolean | false | yes | 入会即关闭摄像头 |
+| startAudioOnly | boolean | false | yes | 纯音频模式，不创建视频轨道 |
+| startSilent | boolean | false | yes | 静默入场 |
+| cameraFacingMode | string | user | yes | 默认摄像头朝向（`user` / `environment`） |
+| disableSelfView | boolean | false | yes | 隐藏本地自视图 |
+| hideConferenceTimer | boolean | false | yes | 隐藏会议计时器 |
+| hideConferenceSubject | boolean | false | yes | 隐藏会议主题 / 房间名标题 |
+| subject | string | — | yes | 覆盖会议主题文字 |
+| requireDisplayName | boolean | false | yes | 强制要求填显示名才能入会 |
 
 ## 遗留问题
+
+- @giphy/react-native-sdk是一个通过网络在GIPHY服务器上搜索相关GIF动图的库，当前没有鸿蒙化，jitsi-meet不实现相关功能。
+- jitsi-meet提供的DropboxModule模块是将录制的会议视频上传到Dropbox 云盘，需要有鸿蒙化的Dropbox SDK，目前没有，jitsi-meet不实现相关功能。
+- @amplitude/analytics-browser和@amplitude/analytics-react-native没有鸿蒙化实现，jitsi-meet不实现相关功能。
+- @react-native-google-signin/google-signin这个谷歌登录模块也没有鸿蒙化实现，jitsi-meet不实现相关功能。
+- react-native-splash-view"当前未鸿蒙化，jitsi-meet不实现相关功能。
 
 ## 其他
 

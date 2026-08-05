@@ -183,9 +183,6 @@ const { createHarmonyMetroConfig } = require('@react-native-oh/react-native-harm
 
 const config = {
     resetCache: true,
-+    resolver: {
-+        unstable_enablePackageExports: true,
-+    },
     transformer: {
         getTransformOptions: async () => ({
             transform: {
@@ -204,6 +201,51 @@ module.exports = mergeConfig(
 +  createJitsiMetroConfig(defaultConfig)
 );
 ```
+
+### 6. Dependencies
+
+This library depends on the following libraries, which must also be installed in package.json. For the specific installation steps of the related HarmonyOS libraries, see [usage-docs](https://gitcode.com/CPF-RN/usage-docs).
+
+```diff
+"dependencies": {
++  "@react-native-ohos/react-native-webrtc": "124.0.8-rc.11",
++  "@react-native-ohos/react-native-gcanvas": "6.0.25-rc.1",
++  "@react-native-ohos/react-native-device-info": "14.1.2-beta.3",
++  "@react-native-ohos/react-native-worklets-core": "1.6.0-rc.1",
++  "@react-native-ohos/react-native-background-timer": "2.6.0-beta.1",
++  "@react-native-ohos/react-native-performance": "5.3.0-beta.1",
++  "@react-native-ohos/react-native-default-preference": "1.6.0-beta.1",
++  "@sayem314/react-native-keep-awake": "npm:@react-native-ohos/react-native-keep-awake@4.2.0-beta.1",
++  "@react-native-ohos/async-storage": "2.3.0-beta.1",
++  "@react-native-community/netinfo": "npm:@react-native-ohos/netinfo@11.5.0-beta.1",
++  "@react-native-ohos/react-native-calendar-events": "2.4.0-rc.1",
++  "@amplitude/analytics-browser": "2.17.12",
++  "@amplitude/analytics-react-native": "1.5.16",
++  "@react-native-ohos/react-native-webview": "13.16.2-rc.5",
++  "@react-native-ohos/react-native-orientation-locker": "1.9.0-beta.2",
++  "@react-native-google-signin/google-signin": "10.1.0",
++  "@react-native-ohos/react-native-sound": "0.13.0-rc.1",
++  "@react-native-ohos/slider": "5.1.2",
++  "@react-native-ohos/react-native-video": "6.14.1",
++  "@react-native-ohos/react-native-get-random-values": "1.13.0-beta.2",
++  "@react-native-ohos/react-native-safe-area-context": "5.6.3",
++  "@react-native-ohos/react-native-svg": "15.13.1-rc.2",
++  "@react-native-ohos/react-native-dialog": "9.3.1-rc.1",
++  "react-native-gesture-handler": "2.25.0",
++  "react-native-svg": "15.15.0",
++  "@react-native-ohos/react-native-screens": "4.9.0-rc.14",
++  "react-native-screens": "4.17.1",
++  "@react-native-ohos/native-stack": "7.4.0-rc.11",
++  "@react-native-ohos/react-native-gesture-handler": "2.23.3"
+}
+
+"overrides": {
+  "@react-native-community/cli": "15.0.1",
++  "use-latest-callback": "0.2.6"
+}
+
+```
+
 
 ### Running
 
@@ -454,77 +496,81 @@ Event callbacks of the `eventListeners` Prop:
 
 ### Feature Flags
 
-The keys of the `flags` Prop are the flag string values below.
+The keys of the `flags` Prop are the string values in the value column below; the corresponding constant names are in the Flag column.
 
 #### Audio / Video
 
-| Flag | Default | Description |
-| ---- | ------- | ----------- |
-| audio-mute.enabled | true | Whether to show the audio mute button |
-| video-mute.enabled | true | Whether to show the video mute button |
-| audio-only.enabled | true | Whether the "audio only" button in the overflow menu is enabled |
-| audio-device-button.enabled | true | Whether to show the audio device button |
-| toggle-camera-button.enabled | true | Whether to enable the toggle camera button |
+| Flag | value | Default | HarmonyOS Support | Description |
+| - | - | - | - | - |
+| AUDIO_MUTE_BUTTON_ENABLED | audio-mute.enabled | true | yes | Whether to show the audio mute button |
+| VIDEO_MUTE_BUTTON_ENABLED | video-mute.enabled | true | yes | Whether to show the video mute button |
+| AUDIO_ONLY_BUTTON_ENABLED | audio-only.enabled | true | yes | Whether the "audio only" button in the overflow menu is enabled |
+| AUDIO_DEVICE_BUTTON_ENABLED | audio-device-button.enabled | true | yes | Whether to show the audio device button |
+| TOGGLE_CAMERA_BUTTON_ENABLED | toggle-camera-button.enabled | true | yes | Whether to enable the toggle camera button |
 
 #### Conference Features
 
-| Flag | Default | Description |
-| ---- | ------- | ----------- |
-| breakout-rooms.enabled | true | Whether the "breakout rooms" button in the overflow menu is enabled |
-| chat.enabled | true | Whether to enable chat |
-| conference-timer.enabled | true | Whether to enable the conference timer |
-| filmstrip.enabled | true | Whether to enable the filmstrip (side participant bar) |
-| invite.enabled | true | Whether to enable invite |
-| kick-out.enabled | true | Whether to enable kicking out participants |
-| meeting-name.enabled | true | Whether to show the meeting name |
-| meeting-password.enabled | true | Whether to enable the meeting password button |
-| participants.enabled | true | Whether to enable the participants panel |
-| raise-hand.enabled | true | Whether to enable raise hand |
-| reactions.enabled | true | Whether to enable emoji reactions |
-| tile-view.enabled | true | Whether to enable tile view |
-| toolbox.enabled | true | Whether to enable the toolbox |
-| toolbox.alwaysVisible | false | Whether the toolbox is always visible |
-| overflow-menu.enabled | true | Whether to show the audio overflow menu button |
+| Flag | value | Default | HarmonyOS Support | Description |
+| - | - | - | - | - |
+| BREAKOUT_ROOMS_BUTTON_ENABLED | breakout-rooms.enabled | true | yes | Whether the "breakout rooms" button in the overflow menu is enabled |
+| CHAT_ENABLED | chat.enabled | true | yes | Whether to enable chat |
+| CONFERENCE_TIMER_ENABLED | conference-timer.enabled | true | yes | Whether to enable the conference timer |
+| FILMSTRIP_ENABLED | filmstrip.enabled | true | yes | Whether to enable the filmstrip (side participant bar) |
+| INVITE_ENABLED | invite.enabled | true | yes | Whether to enable invite |
+| KICK_OUT_ENABLED | kick-out.enabled | true | yes | Whether to enable kicking out participants |
+| MEETING_NAME_ENABLED | meeting-name.enabled | true | yes | Whether to show the meeting name |
+| MEETING_PASSWORD_ENABLED | meeting-password.enabled | true | yes | Whether to enable the meeting password button |
+| PARTICIPANTS_ENABLED | participants.enabled | true | yes | Whether to enable the participants panel |
+| RAISE_HAND_ENABLED | raise-hand.enabled | true | yes | Whether to enable raise hand |
+| REACTIONS_ENABLED | reactions.enabled | true | yes | Whether to enable emoji reactions |
+| TILE_VIEW_ENABLED | tile-view.enabled | true | yes | Whether to enable tile view |
+| TOOLBOX_ENABLED | toolbox.enabled | true | yes | Whether to enable the toolbox |
+| TOOLBOX_ALWAYS_VISIBLE | toolbox.alwaysVisible | false | yes | Whether the toolbox is always visible |
+| OVERFLOW_MENU_ENABLED | overflow-menu.enabled | true | yes | Whether to show the audio overflow menu button |
 
 #### UI / Navigation
 
-| Flag | Default | Description |
-| ---- | ------- | ----------- |
-| car-mode.enabled | true | Whether to enable car mode |
-| notifications.enabled | true | Whether to enable notifications |
-| prejoinpage.enabled | true | Whether to enable the pre-join page |
-| security-options.enabled | true | Whether to enable the security options button |
-| server-url-change.enabled | true | Whether changing the server URL is allowed |
-| settings.enabled | true | Whether to enable settings |
-| welcomepage.enabled | false | Whether to enable the welcome page |
-| speakerstats.enabled | true | Whether to enable speaker stats |
+| Flag | value | Default | HarmonyOS Support | Description |
+| - | - | - | - | - |
+| CAR_MODE_ENABLED | car-mode.enabled | true | yes | Whether to enable car mode |
+| NOTIFICATIONS_ENABLED | notifications.enabled | true | yes | Whether to enable notifications |
+| PREJOIN_PAGE_ENABLED | prejoinpage.enabled | true | yes | Whether to enable the pre-join page |
+| SECURITY_OPTIONS_ENABLED | security-options.enabled | true | yes | Whether to enable the security options button |
+| SETTINGS_ENABLED | settings.enabled | true | yes | Whether to enable settings |
+| WELCOME_PAGE_ENABLED | welcomepage.enabled | false | yes | Whether to enable the welcome page |
+| SPEAKERSTATS_ENABLED | speakerstats.enabled | true | yes | Whether to enable speaker stats |
 
 #### Platform / Integration
 
-| Flag | Default | Description |
-| ---- | ------- | ----------- |
-| pip.enabled | auto-detected | Whether to enable picture-in-picture (PiP) |
-| android.screensharing.enabled | true | Whether to enable screen sharing |
-| replace.participant | false | Whether to use the replaceParticipant feature when joining a conference |
+| Flag | value | Default | HarmonyOS Support | Description |
+| - | - | - | - | - |
+| PIP_ENABLED | pip.enabled | true | yes | Whether to enable picture-in-picture (PiP) |
+| ANDROID_SCREENSHARING_ENABLED | android.screensharing.enabled | true | yes | Whether to enable screen sharing |
 
 ### Config
 
 The keys of the `config` Prop.
 
-| Key | Type | Default | Description |
-| --- | ---- | ------- | ----------- |
-| startWithAudioMuted | boolean | false | Mute local mic on join |
-| startWithVideoMuted | boolean | false | Turn off camera on join |
-| startAudioOnly | boolean | false | Audio-only mode, no video track |
-| startSilent | boolean | false | Join silently |
-| cameraFacingMode | string | user | Default camera facing (`user` / `environment`) |
-| disableSelfView | boolean | false | Hide local self-view |
-| hideConferenceTimer | boolean | false | Hide conference timer |
-| hideConferenceSubject | boolean | false | Hide conference subject / room name title |
-| subject | string | — | Override conference subject text |
-| requireDisplayName | boolean | — | Require display name before joining |
+| Key | Type | Default | HarmonyOS Support | Description |
+| - | - | - | - | - |
+| startWithAudioMuted | boolean | false | yes | Mute local mic on join |
+| startWithVideoMuted | boolean | false | yes | Turn off camera on join |
+| startAudioOnly | boolean | false | yes | Audio-only mode, no video track |
+| startSilent | boolean | false | yes | Join silently |
+| cameraFacingMode | string | user | yes | Default camera facing (`user` / `environment`) |
+| disableSelfView | boolean | false | yes | Hide local self-view |
+| hideConferenceTimer | boolean | false | yes | Hide conference timer |
+| hideConferenceSubject | boolean | false | yes | Hide conference subject / room name title |
+| subject | string | — | yes | Override conference subject text |
+| requireDisplayName | boolean | false | yes | Require display name before joining |
 
 ## Known Issues
+
+- @giphy/react-native-sdk is a library that searches for GIF animations on the GIPHY server over the network. It is currently not adapted for HarmonyOS, so jitsi-meet does not implement this feature.
+- The DropboxModule provided by jitsi-meet uploads recorded conference videos to Dropbox cloud storage, which requires a HarmonyOS-adapted Dropbox SDK. Since none is available yet, jitsi-meet does not implement this feature.
+- @amplitude/analytics-browser and @amplitude/analytics-react-native have no HarmonyOS adaptation, so jitsi-meet does not implement this feature.
+- @react-native-google-signin/google-signin, the Google sign-in module, also has no HarmonyOS adaptation, so jitsi-meet does not implement this feature.
+- react-native-splash-view is currently not adapted for HarmonyOS, so jitsi-meet does not implement this feature.
 
 ## Other
 
